@@ -8,7 +8,13 @@
             @change="onEditorChange($event)">
         </quill-editor>
         <button v-on:click="saveHtml">保存</button>
+
+            <div v-html="content">
+      
+    </div>
     </div>  
+
+
 </template>
 
 <script>
@@ -30,7 +36,7 @@ export default {
         onEditorFocus(){}, // 获得焦点事件
         onEditorChange(){}, // 内容改变事件
         saveHtml:function(event){
-          alert(this.content);
+          console.log(this.content);
         }
     }
 }
