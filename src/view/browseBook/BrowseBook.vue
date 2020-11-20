@@ -10,7 +10,7 @@
 export default {
     data(){
         return {
-            content:"<h1>hello</h1>"
+            content: this.$store.getters.getContent
         }
     },
 }

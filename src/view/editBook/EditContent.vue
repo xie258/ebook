@@ -36,7 +36,10 @@ export default {
         onEditorFocus(){}, // 获得焦点事件
         onEditorChange(){}, // 内容改变事件
         saveHtml:function(event){
+          this.$store.commit("setContent",this.content)
+
           console.log(this.content);
+          
         }
     }
 }
