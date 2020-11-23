@@ -14,9 +14,6 @@
         <a-menu-item key="2">
           <router-link to="/">编辑内容</router-link>
         </a-menu-item>
-        <a-menu-item key="3">
-          nav 3
-        </a-menu-item>
       </a-menu>
     </a-layout-header>
     <a-layout>
@@ -106,5 +103,11 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 28px 16px 0;
   float: left;
+}
+
+
+.header {
+  position: relative;
+  top : auto;
 }
 </style>
