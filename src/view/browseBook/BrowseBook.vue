@@ -2,7 +2,7 @@
     <div>
         <div 电子书 class="title">电子书</div>
         <hr>
-        <div class="content" v-html="content" @contextmenu.prevent="onContextmenu"></div>
+        <div class="content" v-html="content" @contextmenu.prevent="onContextmenu" @mouseup="selectObject"></div>
     </div>
 </template>
 
@@ -14,16 +14,34 @@ export default {
             selectItem:null,
         }
     },
+    created(){
+        this.getContent();
+    },
     methods:{
-        onContextmenu(event){
-            this.selectItem=event;
+        getContent(){
+            this.content=this.$store.getters.getContent;
+            console.log(this.content)
+        },
+        onContextmenu(){
+           
             this.$contextmenu({
                 items:[
                     {
                         label:"标注",
                         onClick:()=>{
-                            this.changeColor(this.selectItem)
-                            // console.log(this.selectItem)
+                    // if (window.getSelection){
+                    //     let selection = window.getSelection();
+                    //     let range = selection.getRangeAt(0);
+                    //     let fragment = range.extractContents();
+                    //     console.log(fragment)
+                    //     let node = document.createElement("RRU");
+                    //     node.appendChild(fragment)
+                    //     console.log(node)
+                    //     range.insertNode(node);
+                        
+                        
+                    //     }
+                        
                         }
                     }
                 ],
@@ -31,14 +49,25 @@ export default {
                 y:event.clientY
             })
         },
-        changeColor(e){
-            let userSelection = document.getSelection();
-            console.log(userSelection)
-            console.log(userSelection.toString())
-            let range = userSelection.getRangeAt(0);
-            console.log(range)
-            let text=range.toString();
-            console.log(text)
+        selectObject(){
+            
+                    if (window.getSelection){
+                        var selection = window.getSelection();
+                        var range = selection.getRangeAt(0);
+                        console.log(range.toString())
+                        var fragment = range.extractContents();
+                        var fragments = range.deleteContents();
+                        console.log(fragment)
+                        let node = document.createElement("colors");
+                        node.appendChild(document.createTextNode(range.toString())); 
+                        node.style.color="red"
+                        node.appendChild(fragment)
+                        range.insertNode(node);
+                        console.log(range.toString())
+                        }
+        },
+        changeColor(){
+
         }
     }
 

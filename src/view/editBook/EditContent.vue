@@ -42,7 +42,7 @@ export default {
     saveHtml: function (event) {
       this.$store.commit("setContent", this.content);
 
-      console.log(this.content);
+      // console.log(this.content);
     },
   },
 };
