@@ -14,6 +14,32 @@ import 'quill/dist/quill.bubble.css'
 
 import Contextmenu from 'vue-contextmenujs'
 
+
+import rangy from 'rangy'
+import 'rangy/lib/rangy-classapplier.js'
+import 'rangy/lib/rangy-core.js'
+import 'rangy/lib/rangy-highlighter.js'
+import 'rangy/lib/rangy-selectionsaverestore.js'
+import 'rangy/lib/rangy-serializer.js'
+import 'rangy/lib/rangy-textrange.js'
+
+
+// import {GGBPool,GGBPlotter} from 'node-geogebra'
+// const GGB = require('node-geogebra');
+
+// const puppeteer = require('puppeteer');
+// import puppeteer from 'puppeteer'n
+
+// const GGBPlotter = require("node-geogebra/dist/GGBPlotter").GGBPlotter;
+
+// 引入GeoGebra 数学图形库
+// Vue.use(GeoGebra)
+// Vue.prototype.$GeoGebra=GeoGebra
+
+//引入selection.range 库
+
+Vue.prototype.$rangy=rangy
+
 //引入右键菜单
 Vue.use(Contextmenu)
 

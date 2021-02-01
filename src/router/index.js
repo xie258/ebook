@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import Home from '@/home/Home'
 import EditBook from '@/view/editBook/EditContent'
 import BrowseBook from '@/view/browseBook/BrowseBook'
+import TestRange from '@/view/test/TestRange'
+import TestGeoGebra from '@/view/test/TestGeoGebra'
 
 Vue.use(Router)
 
@@ -21,6 +23,14 @@ export default new Router({
         {
           path:'/browseBook',
           component:BrowseBook
+        },
+        {
+          path:'/testRange',
+          component:TestRange
+        },
+        {
+          path:'/testGeoGebra',
+          component:TestGeoGebra
         }
       ]
     },{
