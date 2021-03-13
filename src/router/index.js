@@ -6,6 +6,7 @@ import EditBook from '@/view/editBook/EditContent'
 import BrowseBook from '@/view/browseBook/BrowseBook'
 import TestRange from '@/view/test/TestRange'
 import TestGeoGebra from '@/view/test/TestGeoGebra'
+import SearchBook  from '@/view/searchBook/SearchBook'
 
 Vue.use(Router)
 
@@ -31,6 +32,9 @@ export default new Router({
         {
           path:'/testGeoGebra',
           component:TestGeoGebra
+        },{
+          path: '/searchBook',
+          component: SearchBook,
         }
       ]
     },{

@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <!-- <div class="head"></div>
         <span style="font-family:KaiTi;float:left;margin-left:30px;font-size:25px;color:orange">
@@ -12,109 +11,53 @@
      <span style="font-family:SimHei;float:left;margin-left:50px;font-size:20px;color:black">
               电子课本
         </span>
-    </div> -->
+    </div>-->
 
-
-
-
-
-<a-layout id="components-layout-demo-top-side-2">
-    <a-layout-header class="header">
-      <div class="logo" />
-      <a-menu
-        theme="dark"
-        mode="horizontal"
-        :default-selected-keys="['2']"
-        :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1">
-          <router-link to="/browseBook">浏览书籍</router-link>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <router-link to="/">编辑内容</router-link>
-        </a-menu-item>
-      </a-menu>
-    </a-layout-header>
-    <a-layout>
-      <a-layout-sider width="200" style="background: #fff">
+    <a-layout id="components-layout-demo-top-side-2">
+      <a-layout-header class="header">
+        <div class="logo" />
         <a-menu
-          mode="inline"
-          :default-selected-keys="['1']"
-          :default-open-keys="['sub1']"
-          :style="{ height: '100%', borderRight: 0 }"
+          theme="dark"
+          mode="horizontal"
+          :default-selected-keys="['2']"
+          :style="{ lineHeight: '64px' }"
         >
-          <a-sub-menu key="sub1">
-            <span slot="title"><a-icon type="user" />subnav 1</span>
-            <a-menu-item key="1">
-              option1
-            </a-menu-item>
-            <a-menu-item key="2">
-              option2
-            </a-menu-item>
-            <a-menu-item key="3">
-              option3
-            </a-menu-item>
-            <a-menu-item key="4">
-              option4
-            </a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="sub2">
-            <span slot="title"><a-icon type="laptop" />subnav 2</span>
-            <a-menu-item key="5">
-              option5
-            </a-menu-item>
-            <a-menu-item key="6">
-              option6
-            </a-menu-item>
-            <a-menu-item key="7">
-              option7
-            </a-menu-item>
-            <a-menu-item key="8">
-              option8
-            </a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="sub3">
-            <span slot="title"><a-icon type="notification" />subnav 3</span>
-            <a-menu-item key="9">
-              option9
-            </a-menu-item>
-            <a-menu-item key="10">
-              option10
-            </a-menu-item>
-            <a-menu-item key="11">
-              option11
-            </a-menu-item>
-            <a-menu-item key="12">
-              option12
-            </a-menu-item>
-          </a-sub-menu>
+          <a-menu-item key="1">
+            <router-link to="/browseBook">浏览书籍</router-link>
+          </a-menu-item>
+          <a-menu-item key="2">
+            <router-link to="/">编辑内容</router-link>
+          </a-menu-item>
+          <a-menu-item key="3">
+            <router-link to="/">班級</router-link>
+          </a-menu-item>
+          <a-menu-item key="4">
+            <router-link to="/searchBook">電子書</router-link>
+          </a-menu-item>
+          <a-menu-item key="5">
+            <router-link to="/">論壇</router-link>
+          </a-menu-item>
         </a-menu>
-      </a-layout-sider>
-      <a-layout style="padding: 0 24px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
-        </a-breadcrumb>
-        <a-layout-content
-          :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
-        >
-         <router-view/>
-        </a-layout-content>
+      </a-layout-header>
+      <a-layout>
+        <a-layout style="padding: 0 24px 24px">
+          <a-layout-content
+            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+          >
+            <router-view />
+          </a-layout-content>
+        </a-layout>
       </a-layout>
     </a-layout>
-  </a-layout>
   </div>
-
-  
 </template>
 <script>
 export default {
   data() {
     return {
-      collapsed: false,
+      collapsed: false
     };
-  },
+  }
 };
 </script>
 
@@ -127,10 +70,9 @@ export default {
   float: left;
 }
 
-
 .header {
   position: relative;
-  top : auto;
+  top: auto;
 }
 
 .head {
