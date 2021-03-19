@@ -38,7 +38,7 @@ import 'rangy/lib/rangy-textrange.js'
 
 //引入selection.range 库
 
-Vue.prototype.$rangy=rangy
+Vue.prototype.$rangy = rangy
 
 //引入右键菜单
 Vue.use(Contextmenu)
@@ -55,9 +55,9 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
 })

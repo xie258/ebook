@@ -8,19 +8,26 @@
       <div class="card">
         <div class="front"><h1>第一页</h1></div>
         <div class="back">
-          <img src="static/img/dataImg1.png" alt />
+          <!-- <img src="static/img/dataImg1.png" alt /> -->
+          <h1>第一页back</h1>
         </div>
       </div>
       <div class="card">
-        <div class="front">第二页<img src="static/img/dataImg1.png" alt /></div>
+        <div class="front">第二页asdfsdfsfddf
+          <!-- <img src="static/img/dataImg1.png" alt /> -->
+        </div>
         <div class="back">
-          <img src="static/img/dataImg2.png" alt />
+          <!-- <img src="static/img/dataImg2.png" alt /> -->
+          <h1>第e页back</h1>
         </div>
       </div>
       <div class="card">
-        <div class="front">第三页<img src="static/img/dataImg1.png" alt /></div>
+        <div class="front">第三页
+          <!-- <img src="static/img/dataImg1.png" alt /> -->
+          </div>
         <div class="back">
-          <img src="static/img/dataImg3.png" alt />
+          <!-- <img src="static/img/dataImg3.png" alt /> -->
+          <h1>第s页back</h1>
         </div>
       </div>
     </div>
@@ -136,6 +143,7 @@ export default {
 
   div.back {
     transform: rotateY(180deg) inset;
+        
   }
 
   div.front {
@@ -147,6 +155,7 @@ export default {
     color: #032303;
     padding: 30px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
+    backface-visibility: hidden;
   }
 
   img {
