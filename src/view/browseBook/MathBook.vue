@@ -9,7 +9,7 @@
         <div class="front"><h1>第一页</h1></div>
         <div class="back">
           <!-- <img src="static/img/dataImg1.png" alt /> -->
-          <h1>第一页back</h1>
+          第一页back
         </div>
       </div>
       <div class="card">
@@ -130,6 +130,7 @@ export default {
   transition: transform 2s;
   transform-style: preserve-3d;
     transform-origin: 0% 0%;
+    
   &.left {
     transform: rotateY(-180deg);
     z-index: 100!important;
@@ -138,12 +139,21 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    // backface-visibility: hidden;
+            backface-visibility: hidden;
   }
 
   div.back {
-    transform: rotateY(180deg) inset;
-        
+    transform: rotateY(-180deg) inset;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #032303;
+    padding: 30px;
+    transform: rotateY(180deg);
+    // box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
+
   }
 
   div.front {
