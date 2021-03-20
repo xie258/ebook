@@ -200,7 +200,7 @@ export default {
     color: #032303;
     padding: 20px;
     transform: rotateY(180deg);
-    // box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
   }
 
   div.front {

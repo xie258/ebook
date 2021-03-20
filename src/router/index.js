@@ -9,6 +9,8 @@ import TestGeoGebra from '@/view/test/TestGeoGebra'
 import SearchBook from '@/view/searchBook/SearchBook'
 import MathBook from '@/view/browseBook/MathBook'
 import MathSevenGradeBook from '@/view/booksLib/MathSevenGradeBook'
+import BiologySevenGradeBook from '@/view/booksLib/BiologySevenGradeBook'
+import ChineseSevenGradeBook from '@/view/booksLib/ChineseSevenGradeBook'
 
 Vue.use(Router)
 
@@ -41,6 +43,12 @@ export default new Router({
             }, {
                 path: '/mathSevenGradeBook',
                 component: MathSevenGradeBook,
+            }, {
+                path: '/chineseSevenGradeBook',
+                component: ChineseSevenGradeBook,
+            }, {
+                path: '/biologySevenGradeBook',
+                component: BiologySevenGradeBook,
             }
         ]
     }, {
