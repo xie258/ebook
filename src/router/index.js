@@ -8,6 +8,7 @@ import TestRange from '@/view/test/TestRange'
 import TestGeoGebra from '@/view/test/TestGeoGebra'
 import SearchBook from '@/view/searchBook/SearchBook'
 import MathBook from '@/view/browseBook/MathBook'
+import MathSevenGradeBook from '@/view/booksLib/MathSevenGradeBook'
 
 Vue.use(Router)
 
@@ -37,6 +38,9 @@ export default new Router({
             }, {
                 path: '/mathBook',
                 component: MathBook,
+            }, {
+                path: '/mathSevenGradeBook',
+                component: MathSevenGradeBook,
             }
         ]
     }, {
