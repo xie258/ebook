@@ -11,6 +11,8 @@ import MathBook from '@/view/browseBook/MathBook'
 import MathSevenGradeBook from '@/view/booksLib/MathSevenGradeBook'
 import BiologySevenGradeBook from '@/view/booksLib/BiologySevenGradeBook'
 import ChineseSevenGradeBook from '@/view/booksLib/ChineseSevenGradeBook'
+import MathGeogebraBook from '@/view/booksLib/MathGeogebraBook'
+import createPaper from '@/view/paper/createPaper'
 
 Vue.use(Router)
 
@@ -49,6 +51,12 @@ export default new Router({
             }, {
                 path: '/biologySevenGradeBook',
                 component: BiologySevenGradeBook,
+            }, {
+                path: '/mathGeogebraBook',
+                component: MathGeogebraBook,
+            }, {
+                path: '/createPaper',
+                component: createPaper,
             }
         ]
     }, {

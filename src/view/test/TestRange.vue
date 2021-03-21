@@ -1,6 +1,8 @@
 <template>
+
   <div @contextmenu.prevent="onContextmenu">
     <div @click="seldocs">
+        <paper-select></paper-select>
       <h3>Highlighter</h3>
       <p>
         Make a selection in the document and use the buttons below to highlight
@@ -27,7 +29,13 @@
 </template>
 
 <script>
+import paperSelect from '../../components/testPaper/paper-select'
+import PaperSelect from '../../components/testPaper/paper-select.vue';
+
 export default {
+  components: {
+    paperSelect,
+  },
   data() {
     return {
       highlighter: null,
