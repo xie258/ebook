@@ -26,7 +26,7 @@
             <router-link to="/browseBook">浏览书籍</router-link>
           </a-menu-item>
           <a-menu-item key="2">
-            <router-link to="/">编辑内容</router-link>
+            <router-link to="/createPaper">试卷</router-link>
           </a-menu-item>
           <a-menu-item key="3">
             <router-link to="/">班級</router-link>

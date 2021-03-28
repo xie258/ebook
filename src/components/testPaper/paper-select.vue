@@ -9,39 +9,39 @@
       />
     </div>
     <div>
-      <span>
+      <div>
         A：<a-input
           v-model="select.answerA"
           class="selection"
           placeholder="anwser A"
         />
-      </span>
-      <span>
+      </div>
+      <div>
         B：<a-input
           v-model="select.answerB"
           class="selection"
           placeholder="anwser B"
         />
-      </span>
-      <span>
+      </div>
+      <div>
         C：<a-input
           v-model="select.answerC"
           class="selection"
           placeholder="anwser C"
         />
-      </span>
-      <span>
+      </div>
+      <div>
         D：<a-input
           v-model="select.answerD"
           class="selection"
           placeholder="anwser D"
         />
-      </span>
+      </div>
     </div>
-    <span style="margin: 10px">
+    <div style="margin: 10px">
       正确答案：
       <a-select
-        default-value="lucy"
+        placeholder="Please select correct answer"
         style="width: 120px"
       >
         <a-select-option value="A"> A </a-select-option>
@@ -49,7 +49,7 @@
         <a-select-option value="C"> C </a-select-option>
         <a-select-option value="D"> D </a-select-option>
       </a-select>
-    </span>
+    </div>
 
     <div style="margin: 10px">
       <a-button @click="submit">submit</a-button>
@@ -85,8 +85,17 @@ export default {
     },
     handleSelectChange(value) {},
 
+    resetSelectData() {
+      this.select.title = "";
+      this.select.answerA = "";
+      this.select.answerB = "";
+      this.select.answerC = "";
+      this.select.answerD = "";
+    },
+
     submit() {
       console.log(this.select);
+      this.$emit('data', this.select)
     },
   },
 };
