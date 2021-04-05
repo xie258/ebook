@@ -4,40 +4,37 @@
     <button @click="addaskQuestion" ref="sdf">添加简答题</button>
     <paper-select-show :data="selectData"></paper-select-show>
 
+    <div style="text-align: left">一、选择题</div>
     <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-      <div         v-for="(d, index) in choiceQustion"
-        :key="`${index}${d.title}`">
-        
-              <a-form-item label="题目">
-        {{ d.title }}
+      <div v-for="(d, index) in choiceQustion" :key="`${index}${d.title}`">
+        <a-form-item :label="'题目' + (index + 1)">
+          <p style="text-align: left">{{ d.title }}</p>
+        </a-form-item>
+        <a-form-item>
+          <a-radio-group name="radioGroup" :default-value="1">
+            <a-radio :value="1">
+              {{ d.answerA }}
+            </a-radio>
+            <a-radio :value="2">
+              {{ d.answerB }}
+            </a-radio>
+            <a-radio :value="3">
+              {{ d.answerC }}
+            </a-radio>
+            <a-radio :value="4">
+              {{ d.answerD }}
+            </a-radio>
+          </a-radio-group>
+        </a-form-item>
+      </div>
 
-      </a-form-item>
-      <a-form-item>
-        <a-radio-group name="radioGroup" :default-value="1">
-          <a-radio :value="1">
-            {{ d.answerA }}
-          </a-radio>
-          <a-radio :value="2">
-            {{ d.answerB }}
-          </a-radio>
-          <a-radio :value="3">
-            {{ d.answerC }}
-          </a-radio>
-          <a-radio :value="4">
-            {{ d.answerD }}
-          </a-radio>
-        </a-radio-group>
-      </a-form-item>
-        </div>
-
-
+      <div style="text-align: left">二、问答题</div>
       <div v-for="(d, index) in askQustion" :key="index">
-        <a-form-item label="题目">
-          {{ d.title }}
+        <a-form-item :label="'题目' + (index + 1)">
+          <p style="text-align: left">{{ d.title }}</p>
         </a-form-item>
         <a-form-item label="答案">
           <a-textarea
-            style="display: inline"
             v-model="d.answer"
             class="title"
             autoSize

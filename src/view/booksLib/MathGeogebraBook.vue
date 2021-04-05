@@ -1,63 +1,83 @@
 <template>
-  <div class="mainbody">
-    <div class="group-btn" @click="flipPage">
-      <a class="lastBtn">pre</a>
-      <a class="nextBtn">next</a>
-    </div>
+<div>
 
-    <div class="content">
-      <div class="card">
-        <div class="front">
-          <div class="book" >
-            <!-- <div id="ggbApplet" style="margin: 0 auto"></div> -->
-            <div style="position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;
-">
-            <canvas id="myCanvas" style="position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;
-">你的浏览器不支持 HTML5 canvas 标签。</canvas>
-            </div>
-          </div>
-        </div>
+        <div id="ggbApplet" style="margin: 0 auto"></div>
+  <div @contextmenu.prevent="onContextmenu">
+    <div @click="seldocs">
+      <div class="mainbody">
+        <p style="text-align: left">
+          抛物线：y = a(x^2) + bx + c 　　(y等于ax 的平方加上 bx再加上 c ) 　　a
+          >0时开口向上　a 0 ) 　　椭圆(很少用到，知道就可以了)
+        </p>
+        <p style="text-align: left">
+          　　1)周长公式：L=2πb+4(a-b)
+          　　椭圆周长定理：椭圆的周长等于该椭圆短半轴长为半径的圆周长(2πb)加上四倍的该椭圆长半轴长(a)与短半轴长(b)的差。
+          2)面积公式 ：S=πab
+          　　椭圆面积定理：椭圆的面积等于圆周率(π)乘该椭圆长半轴长(a)与短半轴长(b)的乘积。
+          　　菱形面积=对角线乘积的一半，即S=(a×b)÷2
+        </p>
+        <p style="text-align: left">　　三角形面积： 　　 　</p>
+        <p style="text-align: left">　　 1)已知三角形底a，高h，则S=ah/2 　</p>
+        <p style="text-align: left">
+          　　2)已知三角形三边a,b,c,半周长p,则 　　S= √[p(p - a)(p - b)(p -
+          c)](海伦公式) 　
+        </p>
+        <p style="text-align: left">
+          3)已知三角形两边a,b,这两边夹角C，则S=absinC/2
+        </p>
+        <p style="text-align: left">
+          　　4)已知三角形半周长p，内接圆半径r，则S=pr
+        </p>
+        <p style="text-align: left">
+          　　扇形面积： 　　圆心角为n°，半径为r的扇形面积为(n/360)×π(r^2)
+        </p>
+        <p style="text-align: left">
+          　　如果其顶角采用弧度单位，则可简化为1/2×弧度×半径平方。
+          　　扇形还与三角形有相似之处，上述简化的面积公式亦可看成：1/2×弧长×半径，与三角形面积：1/2×底×高相似。
+        </p>
+
+        <p style="text-align: left">　　矩形面积：长×宽</p>
+
+        <p style="text-align: left">
+          　　 梯形体积 　　V=〔S1+S2+√(S1*S2)〕/3*H )
+          　　(V：体积;S1：上表面积;S2：下表面积;H：高)
+        </p>
+        <p style="text-align: left">　　圆柱体体积：V圆柱=S底×h</p>
+        <p style="text-align: left">　　长方体体积：V=长×宽×高</p>
+
+        <p style="text-align: left">　　正方体体积：V=棱长^3</p>
+        <p style="text-align: left">　　圆锥体体积: V=1/3×S底×h</p>
       </div>
-      <div class="back">
-        <!-- <img src="static/img/dataImg1.png" alt /> -->
-        <div>
-          <h3>ddddd</h3>
-          hhhhhh
-        </div>
-        第一页back
-      </div>
+
+      <input
+        type="button"
+        @click="highlightSelectedText()"
+        value="Highlight selection"
+      />
     </div>
+    <input @click="restore()" type="button" value="restore" />
   </div>
+    
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      pageNum: 0,
-      runPages: [],
-      pages: 0,
+      highlighter: null,
+      doc: null,
+      savedSel: null,
+      savedSelActiveElement: null,
+      savepoint: [],
+      highset: [],
     };
   },
-  created() {},
   mounted() {
-
-var canvas=document.getElementById('myCanvas');
-var ctx=canvas.getContext('2d');
-ctx.fillStyle='#FF0000';
-ctx.fillRect(0,0,80,100);
-
-    this.runPages = document.querySelectorAll(".card");
-    this.pages = this.runPages.length;
-    console.log(this.runPages);
-    for (let k = 0, len = this.runPages.length; k < len; k++) {
-      this.runPages[k].style.zIndex = len - k;
-    }
-
     var parameters = {
       id: "ggbApplet",
-      // "width":500,
-      // "height":500,
+      "width":500,
+      "height":500,
       showResetIcon: true,
       borderColor: "white",
       language: "en",
@@ -66,150 +86,195 @@ ctx.fillRect(0,0,80,100);
     };
     var applet = new GGBApplet(parameters, "5.0");
     applet.inject("ggbApplet");
+
+    this.$rangy.init();
+    this.highlighter = this.$rangy.createHighlighter();
+    this.highlighter.addClassApplier(
+      this.$rangy.createClassApplier("highlights")
+    );
   },
   methods: {
-    flipPage(e) {
-      let cls = e.target.className;
+    highlightSelectedText() {
+      this.highlighter.highlightSelection("highlights");
+    },
 
-      switch (cls) {
-        case "nextBtn":
-          if (this.pageNum < 3) {
-            // if (this.pageNum > 0) {
-            //   this.runPages[this.pageNum-1].style.zIndex = this.pages - this.pageNum + 1;
-            // }
-            console.log(this.pages);
-            this.runPages[this.pageNum].classList.add("left");
-            this.pageNum++;
-          }
-          break;
-        case "lastBtn":
-          if (this.pageNum > 0) {
-            if (this.pageNum > 1) {
-              console.log("pre", this.runPages[this.pageNum - 2].style.zIndex);
-              let temp =
-                parseInt(this.runPages[this.pageNum - 2].style.zIndex) + 1;
-              this.runPages[this.pageNum - 1].style.zIndex = 101;
-            }
+    seldocs() {
+      let sel = this.$rangy.getSelection();
+      this.selectRange = window.getSelection().getRangeAt(0);
+      // this.selection = this.$rangy.saveSelection()
+      this.selection = sel;
+      //  保存selection
+      // Remove markers for previously saved selection
 
-            this.pageNum--;
-            console.log("now", this.runPages[this.pageNum].style.zIndex);
-            this.runPages[this.pageNum].classList.remove("left");
-
-            setTimeout(() => {
-              this.runPages[this.pageNum].style.zIndex =
-                this.pages - this.pageNum;
-            }, 500);
-          }
-
-          break;
+      if (this.savedSel) {
+        this.$rangy.removeMarkers(this.savedSel);
       }
+      this.savedSel = this.$rangy.saveSelection();
+
+      // this.savedSelActiveElement = document.activeElement;
+      //     console.log(this.savedSelActiveElement)
+    },
+    restore() {
+      console.log(this.savepoint);
+      let array = this.savepoint;
+
+      array.forEach((element) => {
+        document.getElementById(element.id).setAttribute("class", "highlights");
+        console.log(document.getElementById(element.id));
+        // if(!element["hig"]){
+        //      this.highlighter.highlights=element["hig"]
+        // }
+
+        // element.restored=false
+        // this.$rangy.restoreSelection(element, true);
+      });
+
+      // this.highlighter.highlights=JSON.parse(JSON.stringify(this.highset))
+      this.highlighter.highlights = [];
+      this.highlighter.highlights.push(this.clone(this.highset)["0"]);
+
+      // this.highlighter.highlights=this.highset
+      console.log(this.clone(this.highset));
+      console.log(this.highlighter.highlights);
+      console.log(this.highlighter);
+
+      if (this.highset == this.highlighter.highlights) {
+        console.log("simialr");
+      }
+    },
+    clone(obj) {
+      // let result = Array.isArray(obj) ? [] : {};
+
+
+      if (obj === null) return null;
+      if (obj.constructor === HTMLDocument) return obj;
+
+      console.log(obj)
+      // console.log(obj.__proto__)
+      // console.log(obj.__proto__)
+      let result = new obj.constructor(); //保持继承的原型
+      result.__proto__=obj.__proto__
+      // console.log(result)
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (typeof obj[key] === "object") {
+            result[key] = this.clone(obj[key]); // 递归复制
+          } else {
+            result[key] = obj[key];
+          }
+        }
+      }
+      console.log(result.__proto__)
+      return result;
+    },
+
+    onContextmenu() {
+      this.$contextmenu({
+        items: [
+          {
+            label: "标注",
+            children: [
+              {
+                label: "高亮",
+                onClick: () => {
+                  if (this.savedSel) {
+                    console.log(this.savedSel);
+                    let idname = document.getElementById(
+                      this.savedSel.rangeInfos[0].endMarkerId
+                    );
+                    let id = new Date().getTime() + "highlights";
+                    idname.parentNode.id = "parent";
+
+                    this.$rangy.restoreSelection(this.savedSel, true);
+                    this.highlighter.highlightSelection("highlights");
+                    // console.log(idname.parentNode)
+                    // console.log(idname.parentNode.getElementsByClassName("highlights"))
+                    // let array=idname.parentNode.getElementsByClassName("highlights")
+                    let array = document.getElementById("parent").children;
+                    // console.log(array)
+
+                    for (let index = 0; index < array.length; index++) {
+                      const element = array[index];
+                      console.log(element.id);
+                      if (!element.id) {
+                        element.id = id;
+                        // this.highset=this.highlighter.highlights
+                        // this.highset=JSON.parse(JSON.stringify(this.highset))
+
+                        console.log(this.highlighter.highlights)
+                        this.highset = this.clone(this.highlighter.highlights);
+
+                        console.log(this.highset[0].__proto__)
+                        if (this.highset == this.highlighter.highlights) {
+                          console.log("simialr");
+                        }
+
+                        // this.highset.push(this.highlighter.highlights)
+
+                        this.savepoint.push({
+                          id: id,
+                          hig: this.highlighter.highlights,
+                        });
+                        console.log(element);
+                      }
+                    }
+
+                    this.savedSel = null;
+
+                    // let clss=document.getElementsByClassName("highlights")
+                    // console.log(clss)
+                  }
+                },
+              },
+              {
+                label: "下划线",
+                onClick: () => {
+                  if (this.savedSel) {
+                    this.$rangy.restoreSelection(this.savedSel, true);
+                    this.highlighter.addClassApplier(
+                      this.$rangy.createClassApplier("underline")
+                    );
+                    this.highlighter.highlightSelection("underline");
+
+                    this.savedSel = null;
+                  }
+                },
+              },
+              {
+                label: "取消标注",
+                onClick: () => {
+                  if (this.savedSel) {
+                    this.$rangy.restoreSelection(this.savedSel, true);
+                    console.log(this.highset);
+                    console.log(this.highlighter);
+                    //  this.highlighter.highlights=this.highset
+
+                    // this.highset=this.clone(this.highlighter.highlights)
+
+                    console.log(this.highlighter);
+                    this.highlighter.unhighlightSelection();
+                    console.log(this.highlighter);
+                    this.savedSel = null;
+                  }
+                },
+              },
+            ],
+          },
+        ],
+        x: event.clientX,
+        y: event.clientY,
+      });
     },
   },
 };
 </script>
 
-<style lang="less" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<style>
+.highlights {
+  background-color: yellow;
 }
 
-.mainbody {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.content {
-  width: 800px;
-  height: 600px;
-  border: 1px solid #000;
-  position: relative;
-  //舞台
-  // 视距
-  perspective: 1500px;
-}
-
-.card {
-  width: 400px;
-  height: 600px;
-  position: absolute;
-  right: 0;
-  background: #b5e8f1;
-  transition: transform 2s;
-  transform-style: preserve-3d;
-  transform-origin: 0% 0%;
-
-  &.left {
-    transform: rotateY(-180deg);
-    z-index: 100 !important;
-  }
-  div.front,
-  div.back {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    backface-visibility: hidden;
-  }
-
-  div.back {
-    transform: rotateY(-180deg) inset;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #032303;
-    padding: 30px;
-    transform: rotateY(180deg);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
-  }
-
-  div.front {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #032303;
-    padding: 30px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7) inset;
-    backface-visibility: hidden;
-  }
-
-  .book {
-    width: 50px;
-    height: 100px;
-    position: absolute;
-    backface-visibility: hidden;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.group-btn {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  a {
-    background: #666;
-    width: 60px;
-    height: 50px;
-    line-height: 50px;
-    color: #fff;
-    z-index: 10;
-    cursor: pointer;
-    text-align: center;
-    font-size: 20px;
-  }
+.underline {
+  text-decoration: underline;
 }
 </style>

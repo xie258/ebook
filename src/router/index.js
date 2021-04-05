@@ -13,7 +13,7 @@ import BiologySevenGradeBook from '@/view/booksLib/BiologySevenGradeBook'
 import ChineseSevenGradeBook from '@/view/booksLib/ChineseSevenGradeBook'
 import MathGeogebraBook from '@/view/booksLib/MathGeogebraBook'
 import createPaper from '@/view/paper/createPaper'
-
+import managePaper from '@/view/paper/managePaper'
 Vue.use(Router)
 
 export default new Router({
@@ -57,7 +57,10 @@ export default new Router({
             }, {
                 path: '/createPaper',
                 component: createPaper,
-            }
+            }, {
+                path: '/managePaper',
+                component: managePaper,
+            },
         ]
     }, {
         path: '/helloWorld',
