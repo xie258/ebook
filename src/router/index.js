@@ -14,13 +14,17 @@ import ChineseSevenGradeBook from '@/view/booksLib/ChineseSevenGradeBook'
 import MathGeogebraBook from '@/view/booksLib/MathGeogebraBook'
 import createPaper from '@/view/paper/createPaper'
 import managePaper from '@/view/paper/managePaper'
+import Login from '@/view/login/login'
+import classmanage from '@/view/class/class'
+import BBS from '@/view/bbs/bbs'
+
 Vue.use(Router)
 
 export default new Router({
     routes: [{
         path: '/',
         name: 'Home',
-        component: Home,
+        component: Login,
         children: [{
                 path: '',
                 component: EditBook
@@ -60,11 +64,20 @@ export default new Router({
             }, {
                 path: '/managePaper',
                 component: managePaper,
-            },
+            }, {
+                path: '/class',
+                component: classmanage,
+            }, {
+                path: '/bbs',
+                component: BBS,
+            }
         ]
     }, {
         path: '/helloWorld',
         name: 'HelloWorld',
         component: HelloWorld
-    }]
+    }, {
+        path: '/login',
+        component: Login,
+    }, ]
 })
