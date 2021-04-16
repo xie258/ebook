@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <a-form ref="form" :model="form" class="form">
-          <h2>用户登录</h2>
+          <h2>用户注册</h2>
       <a-form-item>
           <a-input class="inputBox" v-model="form.username">
           </a-input>
@@ -10,15 +10,17 @@
           <a-input-password class="inputBox" v-model="form.password"></a-input-password>
       </a-form-item>
       <a-form-item>
-          <a-button class="submit" type="primary" @click="onSubmit">登录</a-button>
-          <router-link to="/register">注册</router-link>
+          <a-button class="submit" type="primary" @click="onSubmit">注册</a-button>
+          <router-link to="/login">登录</router-link>
       </a-form-item>
       </a-form>
   </div>
 </template>
 
 <script>
-import { doLogin } from '@/api/login'
+import { doRegister } from '@/api/register'
+
+
 
 export default {
     data() {
@@ -27,19 +29,19 @@ export default {
             pwd: '',
             form: {
                 username: "admin",
-                password: "123456",
+                password: "password",
             }
         }
     },
     methods: {
-        async onSubmit() {
-            const response = await doLogin(this.form.username, this.form.password)
-            if (response.data.status === 200) {
-                this.$router.push('/home')
-                this.$message.info("login success")
-            } else {
-                this.$message.error(response.data.data)
-            }
+        onSubmit() {
+            doRegister(this.form.username, this.form.password)
+            .then((res => {
+                console.log(res)
+            })).catch(err => {
+                console.log(err)
+                 this.$message.error(err.data);
+            })
         },
             goto(path) {
       this.$router.push(path);

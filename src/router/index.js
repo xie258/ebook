@@ -17,67 +17,77 @@ import managePaper from '@/view/paper/managePaper'
 import Login from '@/view/login/login'
 import classmanage from '@/view/class/class'
 import BBS from '@/view/bbs/bbs'
+import Register from '@/view/login/register'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-        path: '/',
-        name: 'Home',
-        component: Login,
-        children: [{
-                path: '',
-                component: EditBook
-            },
-            {
-                path: '/browseBook',
-                component: BrowseBook
-            },
-            {
-                path: '/testRange',
-                component: TestRange
-            },
-            {
-                path: '/testGeoGebra',
-                component: TestGeoGebra
-            }, {
-                path: '/searchBook',
-                component: SearchBook,
-            }, {
-                path: '/mathBook',
-                component: MathBook,
-            }, {
-                path: '/mathSevenGradeBook',
-                component: MathSevenGradeBook,
-            }, {
-                path: '/chineseSevenGradeBook',
-                component: ChineseSevenGradeBook,
-            }, {
-                path: '/biologySevenGradeBook',
-                component: BiologySevenGradeBook,
-            }, {
-                path: '/mathGeogebraBook',
-                component: MathGeogebraBook,
-            }, {
-                path: '/createPaper',
-                component: createPaper,
-            }, {
-                path: '/managePaper',
-                component: managePaper,
-            }, {
-                path: '/class',
-                component: classmanage,
-            }, {
-                path: '/bbs',
-                component: BBS,
-            }
-        ]
-    }, {
-        path: '/helloWorld',
-        name: 'HelloWorld',
-        component: HelloWorld
-    }, {
-        path: '/login',
-        component: Login,
-    }, ]
+            path: '/',
+            name: 'Home',
+            component: Login,
+            children: [{
+                    path: '',
+                    component: EditBook
+                },
+                {
+                    path: '/browseBook',
+                    component: BrowseBook
+                },
+                {
+                    path: '/testRange',
+                    component: TestRange
+                },
+                {
+                    path: '/testGeoGebra',
+                    component: TestGeoGebra
+                }, {
+                    path: '/searchBook',
+                    component: SearchBook,
+                }, {
+                    path: '/mathBook',
+                    component: MathBook,
+                }, {
+                    path: '/mathSevenGradeBook',
+                    component: MathSevenGradeBook,
+                }, {
+                    path: '/chineseSevenGradeBook',
+                    component: ChineseSevenGradeBook,
+                }, {
+                    path: '/biologySevenGradeBook',
+                    component: BiologySevenGradeBook,
+                }, {
+                    path: '/mathGeogebraBook',
+                    component: MathGeogebraBook,
+                }, {
+                    path: '/createPaper',
+                    component: createPaper,
+                }, {
+                    path: '/managePaper',
+                    component: managePaper,
+                }, {
+                    path: '/class',
+                    component: classmanage,
+                }, {
+                    path: '/bbs',
+                    component: BBS,
+                }
+            ]
+        }, {
+            path: '/helloWorld',
+            name: 'HelloWorld',
+            component: HelloWorld
+        }, {
+            path: '/login',
+            component: Login,
+        },
+        {
+            path: '/register',
+            component: Register,
+        },
+        {
+            path: '/home',
+            component: Home,
+        }
+    ]
 })

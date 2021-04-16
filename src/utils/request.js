@@ -35,6 +35,7 @@ service.interceptors.request.use(
         if (localStorage.eleToken) {
             config.headers.Authorization = localStorage.eleToken
         }
+        console.log(config.headers)
         return config
     },
     error => {
@@ -51,7 +52,8 @@ service.interceptors.response.use(
     error => {
         // 错误提醒
         endLoading()
-        Message.error(error.response.data)
+        console.log(error.response)
+        Message.error(error.response)
 
         const { status } = error.response
         if (status === 401) {
@@ -63,7 +65,7 @@ service.interceptors.response.use(
             router.push('/login')
         }
 
-        return Promise.reject(error)
+        return Promise.reject(error.response)
     }
 )
 
