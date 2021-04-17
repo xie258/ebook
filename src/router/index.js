@@ -18,6 +18,7 @@ import Login from '@/view/login/login'
 import classmanage from '@/view/class/class'
 import BBS from '@/view/bbs/bbs'
 import Register from '@/view/login/register'
+import joinClass from '@/view/class/joinClass'
 
 Vue.use(Router)
 
@@ -26,6 +27,21 @@ export default new Router({
             path: '/',
             name: 'Home',
             component: Login,
+        }, {
+            path: '/helloWorld',
+            name: 'HelloWorld',
+            component: HelloWorld
+        }, {
+            path: '/login',
+            component: Login,
+        },
+        {
+            path: '/register',
+            component: Register,
+        },
+        {
+            path: '/home',
+            component: Home,
             children: [{
                     path: '',
                     component: EditBook
@@ -71,23 +87,11 @@ export default new Router({
                 }, {
                     path: '/bbs',
                     component: BBS,
-                }
+                }, {
+                    path: '/joinClass',
+                    component: joinClass,
+                },
             ]
-        }, {
-            path: '/helloWorld',
-            name: 'HelloWorld',
-            component: HelloWorld
-        }, {
-            path: '/login',
-            component: Login,
-        },
-        {
-            path: '/register',
-            component: Register,
-        },
-        {
-            path: '/home',
-            component: Home,
         }
     ]
 })

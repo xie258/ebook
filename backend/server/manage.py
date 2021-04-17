@@ -6,12 +6,13 @@ from flask_script import Manager, Server
 
 from module.login import logins
 from module.test import test 
+from module.classmanage import classmanage
 from database.ext import db
 
 app = create_app()
 db.init_app(app)
 app.register_blueprint(logins)
-
+app.register_blueprint(classmanage)
 app.register_blueprint(test)
 
 @app.route('/base')

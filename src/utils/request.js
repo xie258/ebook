@@ -60,8 +60,8 @@ service.interceptors.response.use(
             Message.error('token值无效，请重新登录')
                 // 清除token
             localStorage.removeItem('eleToken')
-
-            // 页面跳转
+            console.log("toekn")
+                // 页面跳转
             router.push('/login')
         }
 

@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function doLogin(username, password) {
+export function doLogin(form) {
     let data = {
-        username,
-        password,
+        username: form.username,
+        password: form.password,
+        types: form.types
     };
     // data = qs.stringify(data)
     return request({

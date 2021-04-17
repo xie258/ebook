@@ -19,23 +19,21 @@ def register():
     data = eval(request.data)
     username = data['username']
     password = data['password']
+    types = data['types']
     password = MD5(password)
-    sql = 'insert into user(username,password,types) values("%s","%s","%d")' % (username,password, 1)
+    sql = 'insert into user(username,password,types) values("%s","%s", %d)' % (username,password, int(types))
     data = ''
     status = 200
     try:
         db2.cursor().execute(sql)
         db2.commit()
-        data = 'true'
-        status = '200'
+        resp = do_response("success", "true", 200)
     except Exception as e:
         print(e)
-        status = '400'
         data = str(e)
-    
-    resp = make_response(data)
-    resp.status = status
-    return do_response("hello",data,400)
+        resp = do_response("error", data, 400)
+
+    return make_response(resp, 200)
     
     
 @logins.route('/api/login', methods=['POST', 'GET'])
@@ -43,8 +41,9 @@ def login():
     data = eval(request.data)
     username = data['username']
     password = data['password']
+    types = data['types']
     print(request.data)
-    sql = 'select * from user where username = "%s" and password = "%s"' % (username, password)
+    sql = 'select * from user where username = "%s" and password = "%s" and types = "%d"' % (username, password, types)
     try:
         cursor =db2.cursor()
         cursor.execute(sql)

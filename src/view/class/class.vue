@@ -1,76 +1,169 @@
 <template>
-  <a-list
-    class="demo-loadmore-list"
-    :loading="loading"
-    item-layout="horizontal"
-    :data-source="data"
-  >
-    <div
-      v-if="showLoadingMore"
-      slot="loadMore"
-      :style="{
-        textAlign: 'center',
-        marginTop: '12px',
-        height: '32px',
-        lineHeight: '32px',
-      }"
+  <div>
+    <h1>班级管理</h1>
+    <a-button type="primary" @click="opencreateClass"> 创建班级 </a-button>
+    <a-modal
+      title="创建班级"
+      :visible="visible"
+      :confirm-loading="confirmLoading"
+      @ok="handleOk"
+      @cancel="handleCancel"
     >
-      <a-spin v-if="loadingMore" />
-      <a-button v-else @click="onLoadMore"> loading more </a-button>
-    </div>
-    <a-list-item slot="renderItem" slot-scope="item, index">
-      <a slot="actions">edit</a>
-      <a slot="actions">more</a>
-      <a-list-item-meta
-        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+      <a-form
+        :form="form"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+        @submit="handleSubmit"
       >
-        <a slot="title" href="https://www.antdv.com/">{{ item.last }}</a>
-        <a-avatar
-          slot="avatar"
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        />
-      </a-list-item-meta>
-      <div>content</div>
-    </a-list-item>
-  </a-list>
+        <a-form-item label="班级名称">
+          <a-input
+            v-decorator="[
+              'className',
+              {
+                rules: [
+                  { required: true, message: 'Please input your className!' },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item label="班级简介">
+          <a-input
+            v-decorator="[
+              'description',
+              {
+                rules: [
+                  { required: true, message: 'Please input your description!' },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+    <a-table :columns="columns" :data-source="data">
+      <span slot="action" slot-scope="text, record">
+        <a>Edit</a>
+        <a-divider type="vertical" />
+        <a @click="deleteClass(record)">Delete</a>
+        <a-divider type="vertical" />
+      </span>
+    </a-table>
+  </div>
 </template>
 <script>
+import { doCreateClass, doGetClass, doDeleteClass } from "@/api/class";
+
+const columns = [
+  {
+    title: "班级",
+    dataIndex: "className",
+    key: "className",
+  },
+  {
+    title: "简介",
+    dataIndex: "description",
+    key: "description",
+  },
+  {
+    title: "Action",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+  },
+];
+
 export default {
   data() {
     return {
-      loading: false,
-      loadingMore: false,
-      showLoadingMore: true,
-      data: [
-        {
-          title: "Ant Design Title 1",
-          last: 'ssdf;',
-        },
-        {
-          title: "Ant Design Title 2",
-          last: 'ssdf;',
-        },
-        {
-          title: "Ant Design Title 3",
-          last: 'ssdf;',
-        },
-        {
-          title: "Ant Design Title 4",
-          last: 'ssdf;',
-        },
-      ],
+      data: [],
+      columns,
+      visible: false,
+      confirmLoading: false,
+      formLayout: "horizontal",
+      form: this.$form.createForm(this, { name: "class" }),
     };
   },
-  mounted() {},
+  mounted() {
+    this.getClassList();
+  },
   methods: {
-    onLoadMore() {
-      //   this.loadingMore = true;
+    opencreateClass() {
+      this.visible = true;
+    },
+    showModal() {
+      this.visible = true;
+    },
+    async getClassList() {
+      let username = this.$store.getters.getUsername;
+      if (username === "") {
+        username = localStorage.getItem("username");
+      }
+      const response = await doGetClass(username);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.data = response.data.data.map((element, index) => {
+          element.key = index;
+          return element;
+        });
+      } else {
+        this.$message.error(response.data.data);
+      }
+    },
+    handleOk(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+          this.confirmLoading = true;
+          let teacherName = this.$store.getters.getUsername;
+          if (teacherName === "") {
+            teacherName = localStorage.getItem("username");
+          }
+          const request = {
+            className: values.className,
+            description: values.description,
+            teacherName,
+          };
+          console.log(request);
+          this.createClass(request).then(() => {
+            this.visible = false;
+            this.confirmLoading = false;
+          });
+        }
+      });
+    },
+    async createClass(request) {
+      const response = await doCreateClass(request);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.$message.info(`create ${request.className} successfully!`);
+        this.getClassList();
+      } else {
+        this.$message.error(response.data.data);
+      }
+    },
+    handleCancel(e) {
+      console.log("Clicked cancel button");
+      this.visible = false;
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
+    },
+    async deleteClass(record) {
+      const response = await doDeleteClass(record.className);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.$message.info(`delete ${record.className} successfully!`);
+        this.getClassList();
+      } else {
+        this.$message.error(response.data.data);
+      }
     },
   },
 };
 </script>
-<style>
-.demo-loadmore-list {
-  min-height: 350px;
-}
-</style>
