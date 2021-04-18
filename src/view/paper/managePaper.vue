@@ -1,96 +1,81 @@
 <template>
-<div>
-        <a-input-search
-      placeholder="input search text"
-      style="width: 60%"
-      @search="onSearch"
-    />
-        <a-button type="primary" @click='goto("createPaper")'>
-      New paper
-    </a-button>
-
-
+  <div>
+    <h1>试卷列表</h1>
     <a-table :columns="columns" :data-source="data">
-    <a slot="name" slot-scope="text">{{ text }}</a>
-    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-    <span slot="tags" slot-scope="tags">
-      <a-tag
-        v-for="tag in tags"
-        :key="tag"
-        :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-      >
-        {{ tag.toUpperCase() }}
-      </a-tag>
-    </span>
-    <span slot="action" slot-scope="text, record">
-      <a>Enter</a>
-      <a-divider type="vertical" />
-      <a>Delete</a>
-    </span>
-  </a-table>
-
-</div>
-
+      <span slot="action" slot-scope="text, record">
+        <a v-if="record.status !== 1" @click="joinClass(record, 1)"> join</a>
+        <a v-if="record.status === 1" @click="joinClass(record, 0)"> quit</a>
+      </span>
+    </a-table>
+  </div>
 </template>
-
 <script>
+import { doGetPaperByCreator } from "@/api/paper";
 
 const columns = [
   {
-    dataIndex: 'name',
-    key: 'name',
-    slots: { title: 'customTitle' },
-    scopedSlots: { customRender: 'name' },
+    title: "试卷名称",
+    dataIndex: "paperName",
+    key: "paperName",
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    scopedSlots: { customRender: 'tags' },
+    title: "简介",
+    dataIndex: "paperDescription",
+    key: "paperDescription",
+  },
+    {
+    title: "创建时间",
+    dataIndex: "createTime",
+    key: "createTime",
   },
   {
-    title: 'Action',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    tags: ['cool', 'teacher'],
+    title: "Action",
+    key: "action",
+    scopedSlots: { customRender: "action" },
   },
 ];
 
 export default {
   data() {
     return {
-      data,
+      data: [],
       columns,
     };
   },
-    methods: {
-    onSearch(value) {
-      console.log(value);
-    },
-    goto(path) {
-      this.$router.push(path);
-    }
+  mounted() {
+    this.getPaperList();
   },
-}
+  methods: {
+    async getPaperList() {
+      let username = this.$store.getters.getUsername;
+      if (username === "") {
+        username = localStorage.getItem("username");
+      }
+      const response = await doGetPaperByCreator(username);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.data = response.data.data.map((element, index) => {
+          element.key = index;
+          return element;
+        });
+      } else {
+        this.$message.error(response.data.data);
+      }
+    },
+    async joinClass(record, status) {
+      const request = {};
+      request.className = record.className;
+      request.studentName = localStorage.getItem("username");
+      request.status = status;
+      const response = await doUpdateClass(request);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.$message.info(`join ${record.className} successfully!`);
+        this.getClassList();
+      } else {
+        this.$message.error(response.data.data);
+      }
+    },
+  },
+};
 </script>
-
-<style>
-
-</style>

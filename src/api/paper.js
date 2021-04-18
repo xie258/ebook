@@ -16,3 +16,15 @@ export function doCreatePaper(form) {
         data,
     })
 }
+
+export function doGetPaperByCreator(creator) {
+    const data = {
+        creator
+    };
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/paper/get_by_creator',
+        method: 'post',
+        data,
+    })
+}

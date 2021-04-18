@@ -43,3 +43,29 @@ def createPaper():
         resp = do_response("error", data, 400)
 
     return make_response(resp, 200)
+
+@paper.route('/api/paper/get_by_creator', methods=['POST', 'GET'])
+def get_by_creator():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    creator = data["creator"]
+    sql = "select * from teacher_paper where creator = '%s' \
+                    order by createTime desc"  % (creator)   
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        all_data = cursor.fetchall()
+        print("all",all_data)
+        key_list = ["paperId","paperName","paperDescription", \
+                    "selectContent","askContent","createTime","creator"]
+        resp_data = tuple_to_dict(key_list, all_data)
+        print("resp",resp_data)
+        resp = do_response("success",resp_data, 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+        
+    return make_response(resp, 200)
