@@ -4,8 +4,7 @@
     <a-button @click="noticeClass" type="primary">发布通知</a-button>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
-        <a v-if="record.status !== 1" @click="joinClass(record, 1)"> join</a>
-        <a v-if="record.status === 1" @click="joinClass(record, 0)"> quit</a>
+        <a @click="joinClass(record, 0)"> quit</a>
       </span>
     </a-table>
     <a-modal
@@ -100,13 +99,13 @@ export default {
     },
     async joinClass(record, status) {
       const request = {};
-      request.className = record.className;
-      request.studentName = localStorage.getItem("username");
+      request.className = this.className;
+      request.studentName = record.studentName;
       request.status = status;
       const response = await doUpdateClass(request);
       console.log(response);
       if (response.data.status === 200) {
-        this.$message.info(`join ${record.className} successfully!`);
+        this.$message.info(`quit ${request.studentName} successfully!`);
         this.getClassList();
       } else {
         this.$message.error(response.data.data);

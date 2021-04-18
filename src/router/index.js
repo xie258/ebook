@@ -20,6 +20,7 @@ import BBS from '@/view/bbs/bbs'
 import Register from '@/view/login/register'
 import joinClass from '@/view/class/joinClass'
 import manageClass from '@/view/class/manageClass'
+import checkNotice from '@/view/class/checkNotice'
 
 Vue.use(Router)
 
@@ -94,6 +95,9 @@ export default new Router({
                 }, {
                     path: '/manageClass',
                     component: manageClass,
+                }, {
+                    path: '/checkNotice',
+                    component: checkNotice,
                 },
             ]
         }

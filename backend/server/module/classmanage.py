@@ -1,5 +1,7 @@
 from flask import Blueprint, make_response, request, json
 
+import datetime
+
 classmanage = Blueprint('classmanage', __name__)
 
 from database.ext import db2
@@ -168,15 +170,16 @@ def get_class_one():
     return make_response(resp, 200)
 
 @classmanage.route('/api/class/notificatoin/add', methods=['POST', 'GET'])
-def addClassNotificatio():
+def addClassNotification():
     print(request.data)
     data = json.loads(request.data)
     print(data)
     className = data['className']
     title = data['title']
     content = data["content"]
-    sql = 'insert into class_notification(className, title, content) \
-                values("%s","%s","%s") '  % (className, title, content)
+    noticeTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    sql = 'insert into class_notification(className, title, content, noticeTime) \
+                values("%s","%s","%s","%s") '  % (className, title, content, noticeTime)
                  
     print(sql)
     try:
@@ -190,4 +193,29 @@ def addClassNotificatio():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    return make_response(resp, 200)
+
+@classmanage.route('/api/class/notificatoin/get', methods=['POST', 'GET'])
+def addClassNotificatio():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    className = data['className']
+    sql = 'select * from class_notification where className = "%s"' %(className)
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        print(sql)
+        all_data = cursor.fetchall()
+        print("all",all_data)
+        key_list = ["notificationId","className","title","content","noticeTime"]
+        resp_data = tuple_to_dict(key_list, all_data)
+        print("resp",resp_data)
+        resp = do_response("success",resp_data, 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+        
     return make_response(resp, 200)

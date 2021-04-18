@@ -91,3 +91,16 @@ export async function addClassNotification(noticeInfo) {
         data,
     })
 }
+
+export async function doGetOneNotice(className) {
+    const data = {
+        className,
+    };
+    // data = qs.stringify(data)
+    console.log("data")
+    return request({
+        url: 'api/class/notificatoin/get',
+        method: 'post',
+        data,
+    })
+}
