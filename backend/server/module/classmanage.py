@@ -140,3 +140,54 @@ def get_join_list():
         resp = do_response("error", data, 400)
 
     return make_response(resp, 200)
+
+@classmanage.route('/api/class/get_class_one', methods=['POST', 'GET'])
+def get_class_one():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    className = data['className']
+    sql = ''' select studentName from class_student where className = "%s" \
+                and status = 1''' % (className)
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        print(sql)
+        all_data = cursor.fetchall()
+        print("all",all_data)
+        key_list = ["studentName"]
+        resp_data = tuple_to_dict(key_list, all_data)
+        print("resp",resp_data)
+        resp = do_response("success",resp_data, 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+
+    return make_response(resp, 200)
+
+@classmanage.route('/api/class/notificatoin/add', methods=['POST', 'GET'])
+def addClassNotificatio():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    className = data['className']
+    title = data['title']
+    content = data["content"]
+    sql = 'insert into class_notification(className, title, content) \
+                values("%s","%s","%s") '  % (className, title, content)
+                 
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        print(sql)
+        db2.commit()
+        resp = do_response("success","true", 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+
+    return make_response(resp, 200)

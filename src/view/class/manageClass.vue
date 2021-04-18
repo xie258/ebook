@@ -1,9 +1,15 @@
 <template>
   <div>
-    <h1>班级管理</h1>
-    <a-button type="primary" @click="opencreateClass"> 创建班级 </a-button>
+    <h1>班级列表</h1>
+    <a-button @click="noticeClass" type="primary">发布通知</a-button>
+    <a-table :columns="columns" :data-source="data">
+      <span slot="action" slot-scope="text, record">
+        <a v-if="record.status !== 1" @click="joinClass(record, 1)"> join</a>
+        <a v-if="record.status === 1" @click="joinClass(record, 0)"> quit</a>
+      </span>
+    </a-table>
     <a-modal
-      title="创建班级"
+      title="发布通知"
       :visible="visible"
       :confirm-loading="confirmLoading"
       @ok="handleOk"
@@ -15,10 +21,10 @@
         :wrapper-col="{ span: 12 }"
         @submit="handleSubmit"
       >
-        <a-form-item label="班级名称">
+        <a-form-item label="通知主题">
           <a-input
             v-decorator="[
-              'className',
+              'title',
               {
                 rules: [
                   { required: true, message: 'Please input your className!' },
@@ -27,10 +33,10 @@
             ]"
           />
         </a-form-item>
-        <a-form-item label="班级简介">
+        <a-form-item label="通知内容">
           <a-input
             v-decorator="[
-              'description',
+              'content',
               {
                 rules: [
                   { required: true, message: 'Please input your description!' },
@@ -41,29 +47,16 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-table :columns="columns" :data-source="data">
-      <span slot="action" slot-scope="text, record">
-        <a @click="manageClass(record)">Edit</a>
-        <a-divider type="vertical" />
-        <a @click="deleteClass(record)">Delete</a>
-        <a-divider type="vertical" />
-      </span>
-    </a-table>
   </div>
 </template>
 <script>
-import { doCreateClass, doGetClass, doDeleteClass } from "@/api/class";
+import { doUpdateClass, doGetOneClass, addClassNotification } from "@/api/class";
 
 const columns = [
   {
-    title: "班级",
-    dataIndex: "className",
-    key: "className",
-  },
-  {
-    title: "简介",
-    dataIndex: "description",
-    key: "description",
+    title: "学生姓名",
+    dataIndex: "studentName",
+    key: "studentName",
   },
   {
     title: "Action",
@@ -77,6 +70,7 @@ export default {
     return {
       data: [],
       columns,
+      className: '',
       visible: false,
       confirmLoading: false,
       formLayout: "horizontal",
@@ -84,21 +78,16 @@ export default {
     };
   },
   mounted() {
+      this.className = this.$route.query.className;
     this.getClassList();
   },
   methods: {
-    opencreateClass() {
-      this.visible = true;
-    },
-    showModal() {
-      this.visible = true;
-    },
     async getClassList() {
       let username = this.$store.getters.getUsername;
       if (username === "") {
         username = localStorage.getItem("username");
       }
-      const response = await doGetClass(username);
+      const response = await doGetOneClass(this.className);
       console.log(response);
       if (response.data.status === 200) {
         this.data = response.data.data.map((element, index) => {
@@ -109,7 +98,24 @@ export default {
         this.$message.error(response.data.data);
       }
     },
-    handleOk(e) {
+    async joinClass(record, status) {
+      const request = {};
+      request.className = record.className;
+      request.studentName = localStorage.getItem("username");
+      request.status = status;
+      const response = await doUpdateClass(request);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.$message.info(`join ${record.className} successfully!`);
+        this.getClassList();
+      } else {
+        this.$message.error(response.data.data);
+      }
+    },
+    noticeClass() {
+        this.visible = true;
+    },
+        handleOk(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -120,29 +126,22 @@ export default {
             teacherName = localStorage.getItem("username");
           }
           const request = {
-            className: values.className,
-            description: values.description,
-            teacherName,
+            title: values.title,
+            content: values.content,
+            className: this.className,
           };
           console.log(request);
-          this.createClass(request).then(() => {
+          addClassNotification(request).then(() => {
             this.visible = false;
             this.confirmLoading = false;
           });
         }
+            this.visible = false;
+            this.confirmLoading = false;
+
       });
     },
-    async createClass(request) {
-      const response = await doCreateClass(request);
-      console.log(response);
-      if (response.data.status === 200) {
-        this.$message.info(`create ${request.className} successfully!`);
-        this.getClassList();
-      } else {
-        this.$message.error(response.data.data);
-      }
-    },
-    handleCancel(e) {
+     handleCancel(e) {
       console.log("Clicked cancel button");
       this.visible = false;
     },
@@ -153,19 +152,6 @@ export default {
           console.log("Received values of form: ", values);
         }
       });
-    },
-    async deleteClass(record) {
-      const response = await doDeleteClass(record.className);
-      console.log(response);
-      if (response.data.status === 200) {
-        this.$message.info(`delete ${record.className} successfully!`);
-        this.getClassList();
-      } else {
-        this.$message.error(response.data.data);
-      }
-    },
-    manageClass(record) {
-      this.$router.push(`manageClass?className=${record.className}`)
     },
   },
 };

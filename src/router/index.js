@@ -19,6 +19,7 @@ import classmanage from '@/view/class/class'
 import BBS from '@/view/bbs/bbs'
 import Register from '@/view/login/register'
 import joinClass from '@/view/class/joinClass'
+import manageClass from '@/view/class/manageClass'
 
 Vue.use(Router)
 
@@ -90,6 +91,9 @@ export default new Router({
                 }, {
                     path: '/joinClass',
                     component: joinClass,
+                }, {
+                    path: '/manageClass',
+                    component: manageClass,
                 },
             ]
         }

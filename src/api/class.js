@@ -64,3 +64,30 @@ export async function doGetJoinClass(studentName) {
         data,
     })
 }
+
+export async function doGetOneClass(className) {
+    const data = {
+        className
+    };
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/class/get_class_one',
+        method: 'post',
+        data,
+    })
+}
+
+export async function addClassNotification(noticeInfo) {
+    const data = {
+        className: noticeInfo.className,
+        title: noticeInfo.title,
+        content: noticeInfo.content,
+    };
+    // data = qs.stringify(data)
+    console.log("data")
+    return request({
+        url: 'api/class/notificatoin/add',
+        method: 'post',
+        data,
+    })
+}
