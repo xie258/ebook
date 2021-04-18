@@ -43,6 +43,7 @@
       <a-select
         placeholder="Please select correct answer"
         style="width: 120px"
+        @change="handleChangeAnswer"
       >
         <a-select-option value="A"> A </a-select-option>
         <a-select-option value="B"> B </a-select-option>
@@ -69,12 +70,16 @@ export default {
         answerB: "",
         answerC: "",
         answerD: "",
+        answerTrue: "",
       },
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
     };
   },
   methods: {
+    handleChangeAnswer(value) {
+      this.form.answerTrue = value;
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
