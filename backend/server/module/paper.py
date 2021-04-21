@@ -69,3 +69,59 @@ def get_by_creator():
         resp = do_response("error", data, 400)
         
     return make_response(resp, 200)
+
+
+@paper.route('/api/paper/get_by_id', methods=['POST', 'GET'])
+def get_by_id():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    paperId = data["paperId"]
+    sql = "select * from teacher_paper where paperId = '%s'" % (paperId)   
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        all_data = cursor.fetchall()
+        print("all",all_data)
+        key_list = ["paperId","paperName","paperDescription", \
+                    "selectContent","askContent","createTime","creator"]
+        resp_data = tuple_to_dict(key_list, all_data)
+        print("resp",resp_data)
+        resp = do_response("success",resp_data, 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+        
+    return make_response(resp, 200)
+
+
+@paper.route('/api/paper/submit', methods=['POST', 'GET'])
+def submitPaper():
+    print(request.data)
+    data = json.loads(request.data)
+    print(data)
+    askContent = data["askContent"]
+    paperId =  data["paperId"]
+    selectContent = data["selectContent"]
+    studentName = data["studentName"]
+    createTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    sql = "insert into student_paper(studentName, paperId, \
+            askContent, selectContent, createTime) \
+                values('%s','%d','%s','%s','%s') "  % \
+                    (studentName, int(paperId),askContent, \
+                         selectContent, createTime)   
+    print(sql)
+    try:
+        cursor =db2.cursor()
+        cursor.execute(sql)
+        print(sql)
+        db2.commit()
+        resp = do_response("success","true", 200)
+    except Exception as e:
+        print(e)
+        data = str(e)
+        resp = do_response("error", data, 400)
+
+    return make_response(resp, 200)

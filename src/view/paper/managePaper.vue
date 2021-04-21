@@ -3,7 +3,7 @@
     <h1>试卷列表</h1>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
-        <a v-if="record.status !== 1" @click="joinClass(record, 1)"> join</a>
+        <a @click="openPaper(record)"> enter</a>
         <a v-if="record.status === 1" @click="joinClass(record, 0)"> quit</a>
       </span>
     </a-table>
@@ -61,6 +61,10 @@ export default {
       } else {
         this.$message.error(response.data.data);
       }
+    },
+    openPaper(record) {
+      console.log(record.paperId)
+      this.$router.push(`/showPaper?paperId=${record.paperId}`)
     },
     async joinClass(record, status) {
       const request = {};

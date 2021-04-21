@@ -28,3 +28,24 @@ export function doGetPaperByCreator(creator) {
         data,
     })
 }
+
+export function doGetPaperById(paperId) {
+    const data = {
+        paperId
+    };
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/paper/get_by_id',
+        method: 'post',
+        data,
+    })
+}
+
+export function doSubmitPaper(data) {
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/paper/submit',
+        method: 'post',
+        data,
+    })
+}

@@ -21,6 +21,7 @@ import Register from '@/view/login/register'
 import joinClass from '@/view/class/joinClass'
 import manageClass from '@/view/class/manageClass'
 import checkNotice from '@/view/class/checkNotice'
+import showPaper from '@/view/paper/showPaper'
 
 Vue.use(Router)
 
@@ -98,6 +99,9 @@ export default new Router({
                 }, {
                     path: '/checkNotice',
                     component: checkNotice,
+                }, {
+                    path: '/showPaper',
+                    component: showPaper,
                 },
             ]
         }
