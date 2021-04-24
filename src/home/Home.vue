@@ -23,7 +23,7 @@
           :style="{ lineHeight: '64px' }"
         >
           <a-menu-item key="1">
-            <router-link to="/browseBook">浏览书籍</router-link>
+            <router-link to="/searchEbook">浏览书籍</router-link>
           </a-menu-item>
           <a-menu-item key="2">
             <router-link to="/createPaper">试卷</router-link>
