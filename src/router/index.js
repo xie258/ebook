@@ -22,7 +22,7 @@ import joinClass from '@/view/class/joinClass'
 import manageClass from '@/view/class/manageClass'
 import checkNotice from '@/view/class/checkNotice'
 import showPaper from '@/view/paper/showPaper'
-
+import showBbs from '@/view/bbs/showBbs'
 Vue.use(Router)
 
 export default new Router({
@@ -102,6 +102,9 @@ export default new Router({
                 }, {
                     path: '/showPaper',
                     component: showPaper,
+                }, {
+                    path: '/showBbs',
+                    component: showBbs,
                 },
             ]
         }
