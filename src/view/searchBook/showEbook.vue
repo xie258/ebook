@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @contextmenu.prevent="onContextmenu">
       <div v-html="contentHtml"></div>
   </div>
 </template>

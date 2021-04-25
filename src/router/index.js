@@ -25,6 +25,7 @@ import showPaper from '@/view/paper/showPaper'
 import showBbs from '@/view/bbs/showBbs'
 import searchEbook from '@/view/searchBook/searchEbook'
 import showEbook from '@/view/searchBook/showEbook'
+import testMark from '@/view/test/testMark'
 
 Vue.use(Router)
 
@@ -114,6 +115,9 @@ export default new Router({
                 }, {
                     path: '/showEbook',
                     component: showEbook
+                }, {
+                    path: '/testMark',
+                    component: testMark
                 }
             ]
         }
