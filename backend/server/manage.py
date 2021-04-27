@@ -11,6 +11,9 @@ from module.paper import paper
 from module.bbs import bbs
 from module.ebook import ebook
 from database.ext import db
+from flask import request, make_response, session
+
+from utils.token import verify_auth_token
 
 app = create_app()
 db.init_app(app)
@@ -20,6 +23,20 @@ app.register_blueprint(test)
 app.register_blueprint(paper)
 app.register_blueprint(bbs)
 app.register_blueprint(ebook)
+
+@app.before_request
+def is_login():
+    token = request.headers['Authorization']
+    path = request.path
+    if path != '/api/login':
+        if 'token' in session.keys():
+            if token != session['token']:
+                return make_response("please login", 401)
+        else:
+            return make_response("please login", 401)
+
+    
+
 @app.route('/base')
 def base():
     return 'base'

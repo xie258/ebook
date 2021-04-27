@@ -50,7 +50,8 @@ export default {
         this.$router.push("/home");
         this.$store.commit("setUsername", this.form.username);
         localStorage.setItem('username', this.form.username);
-        console.log(this.$store.getters.getUsername)
+        console.log(response.data)
+        localStorage.setItem("token",response.data.data)
         this.$message.info("login success");
       } else {
         this.$message.error(response.data.data);

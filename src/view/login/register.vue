@@ -37,7 +37,7 @@ export default {
       pwd: "",
       form: {
         username: "admin",
-        password: "password",
+        password: "123456",
         types: 1,
       },
     };

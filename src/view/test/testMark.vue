@@ -98,6 +98,7 @@ export default {
                 onClick: () => {
                   if (this.savedSel) {
                     this.$rangy.restoreSelection(this.savedSel, true);
+                    console.log(this.savedSel)
                     this.highlighter.unhighlightSelection();
                     this.savedSel = null;
                   }

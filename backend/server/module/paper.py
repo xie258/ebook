@@ -1,5 +1,6 @@
 from flask import Blueprint, make_response, request, json
 
+from utils.token import auth
 import datetime
 
 paper = Blueprint('paper', __name__)
@@ -44,6 +45,7 @@ def createPaper():
 
     return make_response(resp, 200)
 
+@auth.login_required
 @paper.route('/api/paper/get_by_creator', methods=['POST', 'GET'])
 def get_by_creator():
     print(request.data)

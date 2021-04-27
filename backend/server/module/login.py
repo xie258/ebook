@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request
+from flask import Blueprint, make_response, request, session, g
 import hashlib
 logins = Blueprint('login', __name__)
 
@@ -7,6 +7,7 @@ from database.ext import db2
 
 from utils.response import do_response
 
+from utils.token import auth, generate_auth_token
 
 def MD5(data):
     md = hashlib.md5()
@@ -35,12 +36,12 @@ def register():
 
     return make_response(resp, 200)
     
-    
+@auth.login_required
 @logins.route('/api/login', methods=['POST', 'GET'])
 def login():
     data = eval(request.data)
     username = data['username']
-    password = data['password']
+    password = MD5(data['password'])
     types = data['types']
     print(request.data)
     sql = 'select * from user where username = "%s" and password = "%s" and types = "%d"' % (username, password, types)
@@ -55,7 +56,9 @@ def login():
             data = 'username or password error'
         else:
             msg = 'success'
-            data = ''
+            data = generate_auth_token(username)
+            session['token'] = data
+            
         resp = do_response(msg, data, 200)
     except Exception as e:
         print(e)
