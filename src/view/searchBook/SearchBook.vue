@@ -1,10 +1,5 @@
 <template>
   <div>
-    <a-input-search
-      placeholder="input search text"
-      style="width: 60%"
-      @search="onSearch"
-    />
     <div style="background-color: #ececec; padding: 20px; margin-top: 100px">
       <a-row :gutter="24">
         <a-col :span="8">
@@ -66,9 +61,6 @@
 <script>
 export default {
   methods: {
-    onSearch(value) {
-      console.log(value);
-    },
     gotoBook(bookName) {
       this.$router.push(bookName);
     },

@@ -14,35 +14,43 @@
     </div>-->
 
     <a-layout id="components-layout-demo-top-side-2">
-      <a-layout-header class="header">
-        <div class="logo" />
-        <a-menu
-          theme="dark"
-          mode="horizontal"
-          :default-selected-keys="['2']"
-          :style="{ lineHeight: '64px' }"
-        >
-          <a-menu-item key="1">
-            <router-link to="/searchEbook">浏览书籍</router-link>
-          </a-menu-item>
-          <a-menu-item key="2">
-            <router-link to="/createPaper">试卷</router-link>
-          </a-menu-item>
-          <a-menu-item key="3">
-            <router-link to="/class">班級</router-link>
-          </a-menu-item>
-          <a-menu-item key="4">
-            <router-link to="/searchBook">電子書</router-link>
-          </a-menu-item>
-          <a-menu-item key="5">
-            <router-link to="bbs/">論壇</router-link>
-          </a-menu-item>
-        </a-menu>
-      </a-layout-header>
+      <a-layout>
+        <a-layout-content class="header">
+          <div class="logo" />
+          <a-menu
+            theme="dark"
+            mode="horizontal"
+            :default-selected-keys="['2']"
+            :style="{ lineHeight: '64px' }"
+          >
+            <a-menu-item key="1">
+              <router-link to="/searchEbook">浏览书籍</router-link>
+            </a-menu-item>
+            <a-menu-item key="2">
+              <router-link to="/managePaper">试卷</router-link>
+            </a-menu-item>
+            <a-menu-item key="3">
+              <router-link to="/class">班級</router-link>
+            </a-menu-item>
+            <a-menu-item key="4">
+              <router-link to="/searchBook">電子書</router-link>
+            </a-menu-item>
+            <a-menu-item key="5">
+              <router-link to="bbs/">論壇</router-link>
+            </a-menu-item>
+          </a-menu>
+        </a-layout-content>
+        <a-layout-sider class="slider">{{username}}</a-layout-sider>
+      </a-layout>
       <a-layout>
         <a-layout style="padding: 0 24px 24px">
           <a-layout-content
-            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+            :style="{
+              background: '#fff',
+              padding: '24px',
+              margin: 0,
+              minHeight: '280px',
+            }"
           >
             <router-view />
           </a-layout-content>
@@ -55,8 +63,11 @@
 export default {
   data() {
     return {
-      collapsed: false
+      collapsed: false,
+      username: localStorage.getItem('username'),
     };
+  },
+  mounted() {
   }
 };
 </script>
@@ -68,6 +79,14 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 28px 16px 0;
   float: left;
+}
+
+.slider {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 28px 16px 0;
+  float: right;
 }
 
 .header {
