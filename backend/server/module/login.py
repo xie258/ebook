@@ -66,3 +66,17 @@ def login():
 
     return make_response(resp, 200)
     
+
+@logins.route('/api/logout', methods=['POST', 'GET'])
+def logout():
+    data = eval(request.data)
+    username = data['username']
+    print(request.data)
+    try:
+        session['token'] = None
+        resp = do_response("success", "true", 200)
+    except Exception as e:
+        print(e)
+        resp = do_response("error", str(e), 400)
+
+    return make_response(resp, 200)

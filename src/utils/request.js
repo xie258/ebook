@@ -35,7 +35,7 @@ service.interceptors.response.use(
         const { status } = error.response
         if (status === 401) {
             // 清除token
-            localStorage.removeItem('eleToken')
+            localStorage.removeItem('token')
             console.log("toekn")
                 // 页面跳转
             router.push('/login')

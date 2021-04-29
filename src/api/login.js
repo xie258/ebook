@@ -14,3 +14,12 @@ export function doLogin(form) {
         data,
     })
 }
+
+export function doLogout(data) {
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/logout',
+        method: 'post',
+        data,
+    })
+}

@@ -40,7 +40,18 @@
             </a-menu-item>
           </a-menu>
         </a-layout-content>
-        <a-layout-sider class="slider">{{username}}</a-layout-sider>
+        <a-layout-sider class="slider">
+            <a-dropdown>
+    <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+     {{username}} <a-icon type="down" />
+    </a>
+    <a-menu slot="overlay"  style="width: 100px;">
+      <a-menu-item>
+        <a @click="logout" >logout</a>
+      </a-menu-item>
+    </a-menu>
+  </a-dropdown>
+          </a-layout-sider>
       </a-layout>
       <a-layout>
         <a-layout style="padding: 0 24px 24px">
@@ -60,6 +71,9 @@
   </div>
 </template>
 <script>
+
+import { doLogout } from '@/api/login'
+
 export default {
   data() {
     return {
@@ -68,6 +82,21 @@ export default {
     };
   },
   mounted() {
+  },
+  methods: {
+    async logout() {
+      const request = {};
+      request.username = this.username;
+      const response = await doLogout(request);
+      if (response.data.status === 200) {
+        this.$router.push("/login");
+        console.log(response.data);
+        this.$message.info("logout success");
+      } else {
+        this.$message.error(response.data.data);
+      }
+      localStorage.removeItem('token');
+    }
   }
 };
 </script>
