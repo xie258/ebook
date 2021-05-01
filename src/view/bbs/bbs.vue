@@ -27,15 +27,13 @@
         }"
       >
         <a-spin v-if="loadingMore" />
-        <a-button v-else @click="onLoadMore"> loading more </a-button>
       </div>
       <a-list-item slot="renderItem" slot-scope="item, index">
         <a slot="actions" @click="gotoBbs(item.idbbs)">enter</a>
-        <a slot="actions">more</a>
         <a-list-item-meta
           :description="item.author"
         >
-          <a slot="title" href="https://www.antdv.com/">{{ item.topicName }}</a>
+          <a slot="title" >话题： {{ item.topicName }}</a>
           <a-avatar
             slot="avatar"
             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -71,9 +69,6 @@ export default {
     this.getTopicAll();
   },
   methods: {
-    onLoadMore() {
-      //   this.loadingMore = true;
-    },
     async getTopicAll() {
       const response = await doGetTopicAll();
       console.log(response);

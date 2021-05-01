@@ -46,7 +46,7 @@
     </a-modal>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
-        <a @click="manageClass(record)">Edit</a>
+        <a @click="manageClass(record)">enter Class</a>
         <a-divider type="vertical" />
         <a @click="deleteClass(record)">Delete</a>
         <a-divider type="vertical" />

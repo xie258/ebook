@@ -2,7 +2,6 @@
   <div>
     <div class="title">试卷名称: {{ paperName }}</div>
     <div class="description">介绍: {{ paperName }}</div>
-
     <div class="score">总分： {{ score }}</div>
 
     <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
