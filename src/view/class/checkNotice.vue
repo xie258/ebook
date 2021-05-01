@@ -39,6 +39,7 @@ export default {
       columns,
       noticeContent: '',
       visible: false,
+      noticeTitle: '',
     };
   },
   mounted() {

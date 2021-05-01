@@ -1,8 +1,8 @@
 <template>
   <div>
-    <a-button type="primary" @click="saveText()">save</a-button>
+    <a-button type="primary" @click="saveText()"  style='margin-right:100px'>save</a-button>
     <a-button type="primary" @click="loadText()">load Text</a-button>
-    <div @contextmenu.prevent="onContextmenu" style="margin-top:20px">
+    <div @contextmenu.prevent="onContextmenu" style="margin-top:50px">
       <div id="text" @click="seldocs" v-html="contentHtml"></div>
     </div>
   </div>

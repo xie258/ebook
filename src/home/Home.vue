@@ -16,7 +16,7 @@
     <a-layout id="components-layout-demo-top-side-2">
       <a-layout>
         <a-layout-content class="header">
-          <div class="logo" >基于web的交互电子书阅读系统</div>
+          <div class="logo">基于web的交互电子书阅读系统</div>
           <a-menu
             theme="dark"
             mode="horizontal"
@@ -30,28 +30,29 @@
               <router-link to="/managePaper">试卷</router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              <router-link to="/class">班級</router-link>
+              <router-link v-if="this.types === 1" to="/class">班級</router-link>
+              <router-link v-else to="/joinClass">班級</router-link>
             </a-menu-item>
             <a-menu-item key="4">
-              <router-link to="/searchBook">電子書</router-link>
+              <router-link to="/searchBook">电子书</router-link>
             </a-menu-item>
             <a-menu-item key="5">
-              <router-link to="bbs/">論壇</router-link>
+              <router-link to="/bbs">论坛</router-link>
             </a-menu-item>
           </a-menu>
         </a-layout-content>
         <a-layout-sider class="slider">
-            <a-dropdown>
-    <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-     {{username}} <a-icon type="down" />
-    </a>
-    <a-menu slot="overlay"  style="width: 100px;">
-      <a-menu-item>
-        <a @click="logout" >logout</a>
-      </a-menu-item>
-    </a-menu>
-  </a-dropdown>
-          </a-layout-sider>
+          <a-dropdown>
+            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              {{ username }} <a-icon type="down" />
+            </a>
+            <a-menu slot="overlay" style="width: 100px">
+              <a-menu-item>
+                <a @click="logout">logout</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </a-layout-sider>
       </a-layout>
       <a-layout>
         <a-layout style="padding: 0 24px 24px">
@@ -71,17 +72,18 @@
   </div>
 </template>
 <script>
-
-import { doLogout } from '@/api/login'
+import { doLogout } from "@/api/login";
 
 export default {
   data() {
     return {
       collapsed: false,
-      username: localStorage.getItem('username'),
+      username: localStorage.getItem("username"),
+      types: Number(localStorage.getItem("types")),
     };
   },
   mounted() {
+    console.log("th",this.types)
   },
   methods: {
     async logout() {
@@ -95,9 +97,9 @@ export default {
       } else {
         this.$message.error(response.data.data);
       }
-      localStorage.removeItem('token');
-    }
-  }
+      localStorage.removeItem("token");
+    },
+  },
 };
 </script>
 
@@ -108,7 +110,7 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 40px 16px 0;
   float: left;
-  color: #FFF
+  color: #fff;
 }
 
 .slider {

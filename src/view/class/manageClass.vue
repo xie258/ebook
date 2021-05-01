@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>班级列表</h1>
-    <a-button @click="noticeClass" type="primary">发布通知</a-button>
+    <a-button @click="noticeClass" type="primary" style="margin:10px">发布通知</a-button>
+    <a-button @click="checkNotice" type="primary"  style="margin:10px">查看通知</a-button>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
         <a @click="joinClass(record, 0)"> quit</a>
@@ -143,6 +144,9 @@ export default {
      handleCancel(e) {
       console.log("Clicked cancel button");
       this.visible = false;
+    },
+    checkNotice() {
+      this.$router.push(`/checkNotice/?className=${this.className}`);
     },
     handleSubmit(e) {
       e.preventDefault();

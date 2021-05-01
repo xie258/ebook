@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="titles">基于web的交互电子书阅读系统</div>
     <a-form ref="form" :model="form" class="form">
       <h2>用户登录</h2>
       <a-form-item>
@@ -50,6 +51,7 @@ export default {
         this.$router.push("/home");
         this.$store.commit("setUsername", this.form.username);
         localStorage.setItem('username', this.form.username);
+        localStorage.setItem('types',this.form.types)
         console.log(response.data)
         localStorage.setItem("token",response.data.data)
         this.$message.info("login success");
@@ -68,7 +70,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .form {
   width: 565px;
   height: 372px;
@@ -86,6 +88,13 @@ export default {
   color: #fff;
   text-align: center;
   margin: 150px 0;
+  font-size: 48px;
+  font-family: Microsoft Yahei;
+}
+
+.titles {
+  text-align: center;
+  margin: 100px 0;
   font-size: 48px;
   font-family: Microsoft Yahei;
 }

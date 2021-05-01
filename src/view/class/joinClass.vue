@@ -5,6 +5,8 @@
       <span slot="action" slot-scope="text, record">
         <a v-if="record.status !== 1" @click="joinClass(record, 1)"> join</a>
         <a v-if="record.status === 1" @click="joinClass(record, 0)"> quit</a>
+        <a-divider v-if="record.status === 1" type="vertical" />
+        <a v-if="record.status === 1" @click="checkNotice(record)">notice</a>
       </span>
     </a-table>
   </div>
@@ -70,6 +72,9 @@ export default {
       } else {
         this.$message.error(response.data.data);
       }
+    },
+    checkNotice(record) {
+      this.$router.push(`/checkNotice?className=${record.className}`);
     },
   },
 };

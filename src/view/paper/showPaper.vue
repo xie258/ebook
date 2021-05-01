@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">试卷名称: {{ paperName }}</div>
-    <div class="description">介绍: {{ paperName }}</div>
+    <div class="description">介绍: {{ paperDescription }}</div>
 
     <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
       一、选择题
@@ -87,6 +87,8 @@ export default {
       if (response.data.status === 200) {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
         this.askQustion = JSON.parse(response.data.data[0].askContent);
+        this.paperName = response.data.data[0].paperName;
+        this.paperDescription = response.data.data[0].paperDescription;
       } else {
         this.$message.error(response.data.data);
       }
@@ -100,12 +102,10 @@ export default {
 
 <style scoped>
 .title {
-  width: 300;
   font-size: 30px;
 }
 
 .description {
-  width: 300;
   font-size: 20px;
 }
 </style>
