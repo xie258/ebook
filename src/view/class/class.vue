@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h1>班级管理</h1>
+    <p>
+    <span style="margin-right:300px">班级管理</span>
     <a-button type="primary" @click="opencreateClass"> 创建班级 </a-button>
+    </p>
+
     <a-modal
       title="创建班级"
       :visible="visible"

@@ -26,3 +26,12 @@ export function doLoadBook(data) {
         data
     })
 }
+
+export function doSearchBookList(data) {
+    // data = qs.stringify(data)
+    return request({
+        url: 'api/ebook/searchBook',
+        method: 'post',
+        data
+    })
+}

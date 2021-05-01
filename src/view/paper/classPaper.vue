@@ -1,37 +1,32 @@
 <template>
   <div>
-    <p style="margin-bottom:30px">
-    <span style="margin-right: 300px;">试卷列表</span>
-    <router-link  to='/createPaper'>创建试卷</router-link>
-    </p>
-
+    <h1>学生试卷列表</h1>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
-        <a @click="openPaper(record)"> enter</a>
-         <a-divider type="vertical" />
-        <a @click="toClassPaper(record)"> score class paper</a>
+        <a v-if="!record.score" @click="scorePaper(record)"> score</a>
+        <a v-else @click="checkPaper(record)"> check</a>
       </span>
     </a-table>
   </div>
 </template>
 <script>
-import { doGetPaperByCreator } from "@/api/paper";
+import { doGetPaperByCreator, doGetScorePaper } from "@/api/paper";
 
 const columns = [
   {
-    title: "试卷名称",
-    dataIndex: "paperName",
-    key: "paperName",
-  },
-  {
-    title: "简介",
-    dataIndex: "paperDescription",
-    key: "paperDescription",
+    title: "学生姓名",
+    dataIndex: "studentName",
+    key: "studentName",
   },
     {
     title: "创建时间",
     dataIndex: "createTime",
     key: "createTime",
+  },
+    {
+    title: "分数",
+    dataIndex: "score",
+    key: "score",
   },
   {
     title: "Action",
@@ -45,18 +40,17 @@ export default {
     return {
       data: [],
       columns,
+      paperId: -1,
     };
   },
   mounted() {
+    this.paperId = this.$route.query.paperId;
     this.getPaperList();
   },
   methods: {
     async getPaperList() {
-      let username = this.$store.getters.getUsername;
-      if (username === "") {
-        username = localStorage.getItem("username");
-      }
-      const response = await doGetPaperByCreator(username);
+        const paperId = this.paperId;
+      const response = await doGetScorePaper({paperId});
       console.log(response);
       if (response.data.status === 200) {
         this.data = response.data.data.map((element, index) => {
@@ -67,12 +61,12 @@ export default {
         this.$message.error(response.data.data);
       }
     },
-    openPaper(record) {
+    scorePaper(record) {
       console.log(record.paperId)
-      this.$router.push(`/showPaper?paperId=${record.paperId}`)
+      this.$router.push(`/scorePaper?stuPaperId=${record.stuPaperId}&paperId=${this.paperId}`)
     },
-    toClassPaper(record) {
-      this.$router.push(`/classPaper?paperId=${record.paperId}`)
+    checkPaper(record) {
+      this.$router.push(`/checkPaper?stuPaperId=${record.stuPaperId}&paperId=${this.paperId}`)
     },
     async joinClass(record, status) {
       const request = {};

@@ -49,3 +49,27 @@ export function doSubmitPaper(data) {
         data,
     })
 }
+
+export function doGetScorePaper(data) {
+    return request({
+        url: 'api/paper/get_score_paper',
+        method: "post",
+        data,
+    })
+}
+
+export function doGetScorePaperOne(data) {
+    return request({
+        url: 'api/paper/get_score_paper_one',
+        method: "post",
+        data,
+    })
+}
+
+export function doScorePaper(data) {
+    return request({
+        url: 'api/paper/score_paper_one',
+        method: "post",
+        data,
+    })
+}

@@ -26,6 +26,9 @@ import showBbs from '@/view/bbs/showBbs'
 import searchEbook from '@/view/searchBook/searchEbook'
 import showEbook from '@/view/searchBook/showEbook'
 import testMark from '@/view/test/testMark'
+import scorePaper from '@/view/paper/scorePaper'
+import classPaper from '@/view/paper/classPaper'
+import checkPaper from '@/view/paper/checkPaper'
 
 Vue.use(Router)
 
@@ -118,6 +121,15 @@ export default new Router({
                 }, {
                     path: '/testMark',
                     component: testMark
+                }, {
+                    path: '/scorePaper',
+                    component: scorePaper
+                }, {
+                    path: '/classPaper',
+                    component: classPaper
+                }, {
+                    path: '/checkPaper',
+                    component: checkPaper
                 }
             ]
         }

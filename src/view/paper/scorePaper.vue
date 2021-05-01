@@ -10,9 +10,12 @@
       <div v-for="(d, index) in choiceQustion" :key="`${index}${d.title}`">
         <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
           {{ "题目" + (index + 1) + ": " + d.title }}
+          <span style="margin-left: 300px">
+            评分：<a-input-number id="inputNumber" v-model="d.score" />
+          </span>
         </div>
         <a-form-item>
-          <a-radio-group name="radioGroup" v-model="d.answerTrue" disabled>
+          <a-radio-group name="radioGroup" :value="d.answerTrue" disabled>
             <a-radio :value="1">
               {{ d.answerA }}
             </a-radio>
@@ -35,20 +38,17 @@
       <div v-for="(d, index) in askQustion" :key="index">
         <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
           {{ "题目" + (index + 1) + ": " + d.title }}
+          <span style="margin-left: 300px">
+            评分：<a-input-number id="inputNumber" v-model="d.score" />
+          </span>
         </div>
-        <div style="text-align: left">
-          答案：
-          <a-textarea
-            v-model="d.answer"
-            class="title"
-            allowClear
-            placeholder="please input your question"
-            style="width: 500px"
-          />
+        <div style="text-align: left; margin-bottom: 20px; margin-top: 5px">
+          答案：{{ d.answer }}
         </div>
       </div>
     </a-form>
-    <a-button type="primary" @click="back">返回</a-button>
+    <div>总分： {{ scoreTotal }}</div>
+    <a-button type="primary" @click="submitPaper">提交试卷</a-button>
   </div>
 </template>
 
@@ -56,7 +56,7 @@
 import paperSelect from "../../components/testPaper/paper-select.vue";
 import PaperSelectShow from "../../components/testPaper/paper-select-show.vue";
 
-import { doGetPaperById, doSubmitPaper } from "@/api/paper";
+import { doGetScorePaperOne, doScorePaper } from "@/api/paper";
 
 export default {
   components: {
@@ -73,16 +73,35 @@ export default {
       askquestionContent: "",
       paperName: "22",
       paperDescription: "44",
+      stuPaperId: null,
       paperId: null,
     };
   },
+  computed: {
+    scoreTotal: function () {
+      let total = 0;
+      this.choiceQustion.forEach((element) => {
+        if (element.score) {
+          total += Number(element.score);
+        }
+      });
+
+      this.askQustion.forEach((element) => {
+        if (element.score) {
+          total += Number(element.score);
+        }
+      });
+      return total;
+    },
+  },
   mounted() {
+    this.stuPaperId = this.$route.query.stuPaperId;
     this.paperId = this.$route.query.paperId;
-    this.getOnePaper(this.paperId);
+    this.getOnePaper(this.stuPaperId);
   },
   methods: {
-    async getOnePaper(paperId) {
-      const response = await doGetPaperById(paperId);
+    async getOnePaper(stuPaperId) {
+      const response = await doGetScorePaperOne({ stuPaperId });
       console.log(response);
       if (response.data.status === 200) {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
@@ -91,8 +110,25 @@ export default {
         this.$message.error(response.data.data);
       }
     },
-    async back() {
-      this.$router.push(`/managePaper`);
+
+    async submitPaper() {
+      const request = {};
+      request.paperId = this.paperId;
+      request.selectContent = JSON.stringify(this.choiceQustion);
+      request.askContent = JSON.stringify(this.askQustion);
+      request.stuPaperId = this.stuPaperId;
+      request.score = this.scoreTotal;
+      console.log(request);
+      const response = await doScorePaper(request);
+      console.log(response);
+      if (response.data.status === 200) {
+        this.$message.info(`score successfully!`);
+                this.$router.push(`/classPaper?paperId=${this.paperId}`);
+        // this.getClassList();
+      } else {
+        this.$message.error(response.data.data);
+
+      }
     },
   },
 };
@@ -109,4 +145,5 @@ export default {
   font-size: 20px;
 }
 </style>
+
 

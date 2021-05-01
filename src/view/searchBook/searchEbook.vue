@@ -1,19 +1,17 @@
 <template>
   <div>
     <a-input-search
-      style="width: 500px"
+      style="width: 500px;margin-bottom: 30px"
       size="large"
       placeholder="input search text"
       enter-button
       @search="onSearch"
+      v-model="searchKey"
     />
     <a-table
       :columns="columns"
       :row-key="(record) => record.key"
       :data-source="data"
-      :pagination="pagination"
-      :loading="loading"
-      @change="handleTableChange"
     >
       <template slot="name" slot-scope="name">
         {{ name.first }} {{ name.last }}
@@ -54,7 +52,7 @@ const columns = [
   },
 ];
 
-import { doGetbookList } from "@/api/ebook";
+import { doGetbookList, doSearchBookList } from "@/api/ebook";
 
 export default {
   data() {
@@ -63,6 +61,7 @@ export default {
       pagination: {},
       loading: false,
       columns,
+      searchKey: null,
     };
   },
   mounted() {
@@ -84,55 +83,27 @@ export default {
       }
     },
     showEbook(record) {
-        console.log(record.ebookId)
-        localStorage.setItem("contentHtml",record.contentHtml)
-        this.$router.push(`/showEbook?ebookId=${record.ebookId}`)
+      console.log(record.ebookId);
+      localStorage.setItem("contentHtml", record.contentHtml);
+      this.$router.push(`/showEbook?ebookId=${record.ebookId}`);
     },
-    onSearch() {},
-    handleTableChange(pagination, filters, sorter) {
-      console.log(pagination);
-      const pager = { ...this.pagination };
-      pager.current = pagination.current;
-      this.pagination = pager;
-      this.fetch({
-        results: pagination.pageSize,
-        page: pagination.current,
-        sortField: sorter.field,
-        sortOrder: sorter.order,
-        ...filters,
-      });
-    },
-    fetch(params = {}) {
-      //   console.log('params:', params);
-      // //   this.loading = true;
-      //   reqwest({
-      //     url: 'https://randomuser.me/api',
-      //     method: 'get',
-      //     data: {
-      //       results: 10,
-      //       ...params,
-      //     },
-      //     type: 'json',
-      //   }).then(data => {
-      //     const pagination = { ...this.pagination };
-      //     // Read total count from server
-      //     // pagination.total = data.totalCount;
-      //     pagination.total = 200;
-      //     this.loading = false;
-      //     this.data = data.results;
-      //     this.pagination = pagination;
-      //   });
-
-      this.data = [
-        {
-          name: "sfasdf",
-          login: {
-            uuid: "1111111111111111",
-          },
-          gender: "male",
-          email: "2222@qq.com",
-        },
-      ];
+    async onSearch() {
+      const searchKey = this.searchKey;
+      if (searchKey && searchKey !== "") {
+        const response = await doSearchBookList({searchKey});
+        console.log(response);
+        if (response.data.status === 200) {
+          this.$message.info(`get topic list successfully!`);
+          this.data = response.data.data.map((element, index) => {
+            element.key = index;
+            return element;
+          });
+        } else {
+          this.$message.error(response.data.data);
+        }
+      } else {
+        this.getBookList();
+      }
     },
   },
 };

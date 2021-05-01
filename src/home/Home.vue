@@ -16,7 +16,7 @@
     <a-layout id="components-layout-demo-top-side-2">
       <a-layout>
         <a-layout-content class="header">
-          <div class="logo" />
+          <div class="logo" >基于web的交互电子书阅读系统</div>
           <a-menu
             theme="dark"
             mode="horizontal"
@@ -103,11 +103,12 @@ export default {
 
 <style>
 #components-layout-demo-top-side-2 .logo {
-  width: 120px;
-  height: 31px;
+  width: 250px;
+  height: 24px;
   background: rgba(255, 255, 255, 0.2);
-  margin: 16px 28px 16px 0;
+  margin: 16px 40px 16px 0;
   float: left;
+  color: #FFF
 }
 
 .slider {

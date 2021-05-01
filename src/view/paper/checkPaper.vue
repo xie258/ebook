@@ -3,6 +3,8 @@
     <div class="title">试卷名称: {{ paperName }}</div>
     <div class="description">介绍: {{ paperName }}</div>
 
+    <div class="score">总分： {{ score }}</div>
+
     <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
       一、选择题
     </div>
@@ -10,6 +12,7 @@
       <div v-for="(d, index) in choiceQustion" :key="`${index}${d.title}`">
         <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
           {{ "题目" + (index + 1) + ": " + d.title }}
+          <span style="margin-left: 300px"> 评分：{{ d.score }} </span>
         </div>
         <a-form-item>
           <a-radio-group name="radioGroup" v-model="d.answerTrue" disabled>
@@ -35,6 +38,7 @@
       <div v-for="(d, index) in askQustion" :key="index">
         <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
           {{ "题目" + (index + 1) + ": " + d.title }}
+          <span style="margin-left: 300px"> 评分：{{ d.score }} </span>
         </div>
         <div style="text-align: left">
           答案：
@@ -74,6 +78,7 @@ export default {
       paperName: "22",
       paperDescription: "44",
       paperId: null,
+      score: null,
     };
   },
   mounted() {
@@ -87,6 +92,7 @@ export default {
       if (response.data.status === 200) {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
         this.askQustion = JSON.parse(response.data.data[0].askContent);
+        this.score = response.data.data[0].score;
       } else {
         this.$message.error(response.data.data);
       }
@@ -107,6 +113,11 @@ export default {
 .description {
   width: 300;
   font-size: 20px;
+}
+
+.score {
+  width: 300;
+  font-size: 25px;
 }
 </style>
 

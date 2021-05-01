@@ -51,10 +51,10 @@
         <a-select-option value="D"> D </a-select-option>
       </a-select>
     </div>
-
+<!-- 
     <div style="margin: 10px">
       <a-button @click="submit">submit</a-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
