@@ -53,16 +53,53 @@
             </div>
           </a-card>
         </a-col>
+        <a-col :span="8">
+          <a-card title="纪录片" :bordered="false" height="300px">
+            <div @click="gotoVideo('hangtian')">
+              <img
+                width="200"
+                height="200"
+                :src="hangtianImageURl"
+              />
+              <p style="margin-top: 20px">中国航天日</p>
+            </div>
+          </a-card>
+        </a-col>
+                <a-col :span="8">
+          <a-card title="纪录片" :bordered="false" height="300px">
+            <div @click="gotoVideo('warm')">
+              <img
+                width="200"
+                height="200"
+                :src="warmImageURl"
+              />
+              <p style="margin-top: 20px">世界地球日，了解全球气候变暖</p>
+            </div>
+          </a-card>
+        </a-col>
       </a-row>
     </div>
   </div>
 </template>
 
 <script>
+
+import hangtianImageURl from '../../../static/img/航天纪录片.png'
+import warmImageURl from '../../../static/img/全球变暖.png'
+
 export default {
+  data() {
+    return {
+      hangtianImageURl,
+      warmImageURl,
+    }
+  },
   methods: {
     gotoBook(bookName) {
       this.$router.push(bookName);
+    },
+    gotoVideo(index) {
+      this.$router.push(`/video?index=${index}`);
     },
   },
 };

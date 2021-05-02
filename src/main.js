@@ -23,9 +23,11 @@ import 'rangy/lib/rangy-selectionsaverestore.js'
 import 'rangy/lib/rangy-serializer.js'
 import 'rangy/lib/rangy-textrange.js'
 
-
-// import {GGBPool,GGBPlotter} from 'node-geogebra'
-// const GGB = require('node-geogebra');
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer)
+require('vue-video-player/src/custom-theme.css')
+    // import {GGBPool,GGBPlotter} from 'node-geogebra'
+    // const GGB = require('node-geogebra');
 
 // const puppeteer = require('puppeteer');
 // import puppeteer from 'puppeteer'n
@@ -49,6 +51,8 @@ Vue.use(Antd)
 //引入富文本quill
 Vue.use(VueQuillEditor)
 
+import "video.js/dist/video-js.css";
+import "vue-video-player/src/custom-theme.css";
 
 import { message } from 'ant-design-vue'
 Vue.prototype.$message = message;
@@ -57,7 +61,6 @@ message.config({
     top: `100px`, // 到页面顶部距离
     maxCount: 3 // 最大显示数, 超过限制时，最早的消息会被自动关闭
 });
-
 
 /* eslint-disable no-new */
 new Vue({

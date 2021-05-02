@@ -32,6 +32,7 @@ import checkPaper from '@/view/paper/checkPaper'
 import studentPaper from '@/view/paper/studentPaper'
 import studentDoPaper from '@/view/paper/studentDoPaper'
 import checkScorePaper from '@/view/paper/checkScorePaper'
+import video from '@/view/searchBook/video'
 
 Vue.use(Router)
 
@@ -142,6 +143,9 @@ export default new Router({
                 }, {
                     path: '/checkScorePaper',
                     component: checkScorePaper
+                }, {
+                    path: '/video',
+                    component: video
                 }
             ]
         }
