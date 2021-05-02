@@ -29,6 +29,9 @@ import testMark from '@/view/test/testMark'
 import scorePaper from '@/view/paper/scorePaper'
 import classPaper from '@/view/paper/classPaper'
 import checkPaper from '@/view/paper/checkPaper'
+import studentPaper from '@/view/paper/studentPaper'
+import studentDoPaper from '@/view/paper/studentDoPaper'
+import checkScorePaper from '@/view/paper/checkScorePaper'
 
 Vue.use(Router)
 
@@ -130,6 +133,15 @@ export default new Router({
                 }, {
                     path: '/checkPaper',
                     component: checkPaper
+                }, {
+                    path: '/studentPaper',
+                    component: studentPaper
+                }, {
+                    path: '/studentDoPaper',
+                    component: studentDoPaper
+                }, {
+                    path: '/checkScorePaper',
+                    component: checkScorePaper
                 }
             ]
         }

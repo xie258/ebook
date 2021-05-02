@@ -27,7 +27,8 @@
               <router-link to="/searchEbook">浏览书籍</router-link>
             </a-menu-item>
             <a-menu-item key="2">
-              <router-link to="/managePaper">试卷</router-link>
+              <router-link v-if="this.types === 1" to="/managePaper">试卷</router-link>
+              <router-link v-else to="/studentPaper">试卷</router-link>
             </a-menu-item>
             <a-menu-item key="3">
               <router-link v-if="this.types === 1" to="/class">班級</router-link>

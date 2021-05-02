@@ -52,7 +52,7 @@
 import paperSelect from "../../components/testPaper/paper-select.vue";
 import PaperSelectShow from "../../components/testPaper/paper-select-show.vue";
 
-import { doGetPaperById, doSubmitPaper } from "@/api/paper";
+import { doGetScorePaperOne, doSubmitPaper } from "@/api/paper";
 
 export default {
   components: {
@@ -71,15 +71,17 @@ export default {
       paperDescription: "44",
       paperId: null,
       score: null,
+      stuPaperId: null,
     };
   },
   mounted() {
+    this.stuPaperId = this.$route.query.stuPaperId;
     this.paperId = this.$route.query.paperId;
-    this.getOnePaper(this.paperId);
+    this.getOnePaper(this.stuPaperId);
   },
   methods: {
-    async getOnePaper(paperId) {
-      const response = await doGetPaperById(paperId);
+    async getOnePaper(stuPaperId) {
+      const response = await doGetScorePaperOne({stuPaperId});
       console.log(response);
       if (response.data.status === 200) {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
@@ -91,7 +93,7 @@ export default {
     },
     async back() {
       if (localStorage.getItem('types') === '1' ) {
-      this.$router.push(`/managePaper`);
+      this.$router.push(`/classPaper?paperId=${this.paperId}`);
       } else {
         this.$router.push(`/studentPaper`)
       }

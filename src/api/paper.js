@@ -73,3 +73,27 @@ export function doScorePaper(data) {
         data,
     })
 }
+
+export function doPublishPaper(data) {
+    return request({
+        url: 'api/paper/publish_class',
+        method: "post",
+        data,
+    })
+}
+
+export function doGetStudentPaper(data) {
+    return request({
+        url: 'api/paper/student_paper',
+        method: "post",
+        data,
+    })
+}
+
+export function doDoStudentPaper(data) {
+    return request({
+        url: 'api/paper/do_paper_one',
+        method: "post",
+        data,
+    })
+}

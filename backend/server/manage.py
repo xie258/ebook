@@ -30,7 +30,7 @@ def is_login():
     try:
         headers = request.headers
         path = request.path
-        if path != '/api/login':
+        if path != '/api/login' and path != '/api/register':
             if 'Authorization' not in headers.keys():
                 return make_response("please login", 401)
 
