@@ -19,6 +19,11 @@
 -- Table structure for table `bbs_comment`
 --
 
+CREATE DATABASE IF NOT EXISTS ebook default charset utf8 COLLATE utf8_general_ci;
+ 
+use ebook;
+ 
+
 
 DROP TABLE IF EXISTS `bbs_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

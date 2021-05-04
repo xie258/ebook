@@ -39,24 +39,24 @@ export default {
       form: {
         username: "admin",
         password: "123456",
-        types: 1,
-      },
+        types: 1
+      }
     };
   },
   methods: {
     async onSubmit() {
       const response = await doLogin(this.form);
-      console.log("sss")
+      console.log("sss");
       if (response.data.status === 200) {
         this.$router.push("/home");
         this.$store.commit("setUsername", this.form.username);
-        localStorage.setItem('username', this.form.username);
-        localStorage.setItem('types',this.form.types)
-        console.log(response.data)
-        localStorage.setItem("token",response.data.data)
+        localStorage.setItem("username", this.form.username);
+        localStorage.setItem("types", this.form.types);
+        console.log(response.data);
+        localStorage.setItem("token", response.data.data);
         this.$message.info("login success");
       } else {
-        this.$message.error(response.data.data);
+        this.$message.error("账号或者密码错误");
       }
     },
     goto(path) {
@@ -65,8 +65,8 @@ export default {
     changeType(e) {
       this.form.types = e.target.value;
       console.log(e.target.value);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -12,9 +12,9 @@
         ></a-input-password>
       </a-form-item>
       <a-form-item>
-        <a-radio-group v-model="form.types" defaultValue=1 @change="changeType">
-          <a-radio value=1> 教师 </a-radio>
-          <a-radio value=2> 学生 </a-radio>
+        <a-radio-group v-model="form.types" :defaultValue=1 @change="changeType">
+          <a-radio :value=1> 教师 </a-radio>
+          <a-radio :value=2> 学生 </a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item>

@@ -54,12 +54,13 @@ def login():
         if len(all_data) < 1:
             msg = 'error'
             data = 'username or password error'
+            resp = do_response(msg, data, 400)
         else:
             msg = 'success'
             data = generate_auth_token(username)
             session['token'] = data
+            resp = do_response(msg, data, 200)
             
-        resp = do_response(msg, data, 200)
     except Exception as e:
         print(e)
         resp = do_response("error", str(e), 400)
