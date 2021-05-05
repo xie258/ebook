@@ -23,6 +23,7 @@ def register():
     types = data['types']
     password = MD5(password)
     sql = 'insert into user(username,password,types) values("%s","%s", %d)' % (username,password, int(types))
+    print(sql)
     data = ''
     status = 200
     try:
@@ -32,6 +33,7 @@ def register():
     except Exception as e:
         print(e)
         data = str(e)
+        print(e)
         resp = do_response("error", data, 400)
 
     return make_response(resp, 200)
