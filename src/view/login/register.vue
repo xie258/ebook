@@ -12,9 +12,13 @@
         ></a-input-password>
       </a-form-item>
       <a-form-item>
-        <a-radio-group v-model="form.types" :defaultValue=1 @change="changeType">
-          <a-radio :value=1> 教师 </a-radio>
-          <a-radio :value=2> 学生 </a-radio>
+        <a-radio-group
+          v-model="form.types"
+          :defaultValue="1"
+          @change="changeType"
+        >
+          <a-radio :value="1"> 教师 </a-radio>
+          <a-radio :value="2"> 学生 </a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item>
@@ -36,25 +40,34 @@ export default {
       user: "",
       pwd: "",
       form: {
-        username: "admin",
-        password: "123456",
-        types: 1,
-      },
+        username: "",
+        password: "",
+        types: 1
+      }
     };
   },
   methods: {
     onSubmit() {
+      if (this.form.username.trim() === "") {
+        this.$message.error("账号名不能为空");
+        return;
+      }
+      if (this.form.password.trim() === "") {
+        this.$message.error("密码不能为空");
+        return;
+      }
       doRegister(this.form)
-        .then((res) => {
+        .then(res => {
           console.log(res);
-          if(res.data.status === 400) {
-              this.$message.error(res.data.data);
-          }else if (res.data.status === 200) {
-              this.$message.info("register success");
-              this.goto('login');
+          if (res.data.status === 400) {
+            this.$message.error("账号注册失败，请换一个账号尝试");
+            console.error(res.data.data)
+          } else if (res.data.status === 200) {
+            this.$message.info("register success");
+            this.goto("login");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.$message.error(err.data);
         });
@@ -63,10 +76,10 @@ export default {
       this.$router.push(path);
     },
     changeType(e) {
-        this.form.types = e.target.value;
-        console.log(e.target.value)
+      this.form.types = e.target.value;
+      console.log(e.target.value);
     }
-  },
+  }
 };
 </script>
 

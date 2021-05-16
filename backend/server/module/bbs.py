@@ -5,6 +5,7 @@ import datetime
 bbs = Blueprint('bbs', __name__)
 
 from database.ext import db2
+import pymysql
 
 from utils.response import do_response
 from utils.toDict import tuple_to_dict
@@ -21,9 +22,11 @@ def create_topic():
         % (author,topicName, createTime)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         db2.cursor().execute(sql)
         db2.commit()
         resp = do_response("success", "true", 200)
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
@@ -37,6 +40,7 @@ def get_topic_all():
     sql = 'select * from bbs_topic order by createTime desc'
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
@@ -45,11 +49,13 @@ def get_topic_all():
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-        
+               
     return make_response(resp, 200)
 
 @bbs.route('/api/bbs/create_bbs_comment', methods=['POST', 'GET'])
@@ -67,14 +73,16 @@ def create_bbs_comment():
         % (bbsId,author,avatar,content,createTime )
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         db2.cursor().execute(sql)
         db2.commit()
         resp = do_response("success", "true", 200)
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
 
 
@@ -88,6 +96,7 @@ def get_bbs_comment_by_topic():
         % (int(bbsId))
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
@@ -96,9 +105,11 @@ def get_bbs_comment_by_topic():
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-        
+
     return make_response(resp, 200)

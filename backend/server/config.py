@@ -6,7 +6,7 @@ HOST = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'ebook'
 
-SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(
+SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8mb4'.format(
     DIALECT,DRIVER,USERNAME,PASSWORD,HOST,PORT,DATABASE
 )
 SQLALCHEMY_COMMIT_ON_TEARDOWN = True

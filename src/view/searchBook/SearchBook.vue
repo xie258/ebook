@@ -47,7 +47,7 @@
               <img
                 width="200"
                 height="200"
-                src="http://p2.itc.cn/q_70/images03/20210102/675bdee8e32c4b668bf7df442f28e7a7.jpeg"
+                src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2287630695,4220964304&fm=26&gp=0.jpg"
               />
               <p style="margin-top: 20px">geogebra 可编辑教材</p>
             </div>

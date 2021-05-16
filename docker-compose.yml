@@ -4,19 +4,19 @@ services:
     build: ./mysql
     ports: 
       - "3306:3306"
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=123456
-  #   restart: always
-  # flask:
-  #   build: ./backend/server
-  #   ports:
-  #    - "5000:5000"
-  #   links: 
-  #    - mysql:mysql  
-  #   restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    restart: always
+  flask:
+    build: ./backend/server
+    ports:
+     - "5000:5000"
+    links: 
+     - mysql:mysql  
+    restart: always
   nginx: 
     build: ./ 
     ports: 
       - "80:80" 
-    # links: 
-    #  - flask
+    links: 
+     - flask

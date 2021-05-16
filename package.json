@@ -12,9 +12,13 @@
   "dependencies": {
     "ant-design-vue": "^1.7.2",
     "axios": "^0.21.1",
+    "echarts": "^5.1.1",
     "element-china-area-data": "^5.0.2",
     "element-plus": "^1.0.2-beta.39",
+    "flowchart": "^1.2.0",
+    "flowchart-vue": "^0.17.1",
     "less": "^4.1.1",
+    "mermaid": "^8.9.3",
     "vue": "^2.5.2",
     "vue-contextmenujs": "^1.3.13",
     "vue-router": "^3.0.1",

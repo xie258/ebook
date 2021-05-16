@@ -2,8 +2,9 @@ from flask import Blueprint, make_response, request, session, g
 import hashlib
 logins = Blueprint('login', __name__)
 
-from database.models import User
+# from database.models import User
 from database.ext import db2
+import pymysql
 
 from utils.response import do_response
 
@@ -27,6 +28,7 @@ def register():
     data = ''
     status = 200
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         db2.cursor().execute(sql)
         db2.commit()
         resp = do_response("success", "true", 200)
@@ -35,7 +37,8 @@ def register():
         data = str(e)
         print(e)
         resp = do_response("error", data, 400)
-
+        
+    db2.close()
     return make_response(resp, 200)
     
 @auth.login_required
@@ -48,6 +51,7 @@ def login():
     print(request.data)
     sql = 'select * from user where username = "%s" and password = "%s" and types = "%d"' % (username, password, types)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -66,7 +70,9 @@ def login():
     except Exception as e:
         print(e)
         resp = do_response("error", str(e), 400)
-
+        
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
     
 

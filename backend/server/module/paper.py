@@ -2,6 +2,7 @@ from utils.toDict import tuple_to_dict
 from utils.response import do_response
 from database.ext import db2
 from flask import Blueprint, make_response, request, json
+import pymysql
 
 from utils.token import auth
 import datetime
@@ -25,13 +26,12 @@ def createPaper():
     # json.loads(selectContent)
     creator = data["creator"]
     createTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sql = "insert into teacher_paper(paperName, paperDescription, \
-            selectContent, askContent, createTime, creator) \
-                values('%s','%s','%s','%s','%s','%s') " % \
-        (paperName, paperDescription, selectContent,
-         askContent, createTime, creator)
+    sql = "insert into teacher_paper(paperName, paperDescription,selectContent, askContent, createTime, creator) values('%s', '%s', '%s', '%s', '%s', '%s') " % (
+        paperName, paperDescription, selectContent,  askContent, createTime, creator)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -42,6 +42,8 @@ def createPaper():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -52,10 +54,12 @@ def get_by_creator():
     data = json.loads(request.data)
     print(data)
     creator = data["creator"]
-    sql = "select * from teacher_paper where creator = '%s' \
-                    order by createTime desc" % (creator)
+    sql = "select * from teacher_paper where creator = '%s'  order by createTime desc" % (
+        creator)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
@@ -70,6 +74,8 @@ def get_by_creator():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -82,6 +88,8 @@ def get_by_id():
     sql = "select * from teacher_paper where paperId = '%s'" % (paperId)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
@@ -96,6 +104,8 @@ def get_by_id():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -109,13 +119,12 @@ def submitPaper():
     selectContent = data["selectContent"]
     studentName = data["studentName"]
     createTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sql = "insert into student_paper(studentName, paperId, \
-            askContent, selectContent, createTime) \
-                values('%s','%d','%s','%s','%s') " % \
-        (studentName, int(paperId), askContent,
-         selectContent, createTime)
+    sql = "insert into student_paper(studentName, paperId, askContent, selectContent, createTime)  values('%s','%d','%s','%s','%s') " % (
+        studentName, int(paperId), askContent, selectContent, createTime)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -126,6 +135,8 @@ def submitPaper():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -135,15 +146,18 @@ def get_score_paper():
     data = json.loads(request.data)
     print(data)
     paperId = data["paperId"]
-    sql = "select * from student_paper where paperId = '%s'" % (paperId)
+    sql = "select a.stuPaperId,a.studentName,a.paperId,a.askContent,a.selectContent,a.createTime,a.score,a.remark,a.status,b.paperName,b.paperDescription from student_paper a left join teacher_paper b on a.paperId = b.paperId where a.paperId = '%s'" % (
+        paperId)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
         print("all", all_data)
-        key_list = ["stuPaperId", "studentName", "paperId",
-                    "askContent", "selectContent", "createTime", "score"]
+        key_list = ["stuPaperId", "studentName", "paperId", "askContent", "selectContent",
+                    "createTime", "score", "remark", "status", "paperName", "paperDescription"]
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp", resp_data)
         resp = do_response("success", resp_data, 200)
@@ -152,6 +166,8 @@ def get_score_paper():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -161,16 +177,18 @@ def get_score_paper_one():
     data = json.loads(request.data)
     print(data)
     stuPaperId = data["stuPaperId"]
-    sql = "select * from student_paper where stuPaperId = %d" % (
+    sql = "select a.stuPaperId,a.studentName,a.paperId,a.askContent,a.selectContent,a.createTime,a.score,a.remark,a.status,b.paperName,b.paperDescription from student_paper a left join teacher_paper b on a.paperId = b.paperId where stuPaperId = %d" % (
         int(stuPaperId))
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
         print("all", all_data)
         key_list = ["stuPaperId", "studentName", "paperId",
-                    "askContent", "selectContent", "createTime", "score"]
+                    "askContent", "selectContent", "createTime", "score", "remark","status","paperName", "paperDescription"]
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp", resp_data)
         resp = do_response("success", resp_data, 200)
@@ -179,6 +197,8 @@ def get_score_paper_one():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -191,10 +211,12 @@ def score_paper_one():
     stuPaperId = data["stuPaperId"]
     selectContent = data["selectContent"]
     score = data['score']
-    sql = "update student_paper set askContent = '%s',selectContent = '%s' ,score = %d where stuPaperId = %d" % (
+    sql = "update student_paper set askContent = '%s',selectContent = '%s' ,score = %d ,status = '2' where stuPaperId = %d" % (
         askContent, selectContent, int(score), int(stuPaperId))
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -205,6 +227,8 @@ def score_paper_one():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -220,6 +244,8 @@ def publish_class():
 
     sql_one = "select studentName from class_student where className = '%s' and status = 1" % className
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql_one)
         all_data = cursor.fetchall()
@@ -243,6 +269,8 @@ def publish_class():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -256,12 +284,14 @@ def student_paper():
                     order by createTime desc" % (studentName)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         all_data = cursor.fetchall()
         print("all", all_data)
         key_list = ["stuPaperId", "studentName", "paperId",
-                    "askContent", "selectContent", "createTime", "score", "remark", "status","paperName", "paperDescription"]
+                    "askContent", "selectContent", "createTime", "score", "remark", "status", "paperName", "paperDescription"]
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp", resp_data)
         resp = do_response("success", resp_data, 200)
@@ -270,6 +300,8 @@ def student_paper():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)
 
 
@@ -285,6 +317,8 @@ def do_paper_one():
         askContent, selectContent, int(stuPaperId))
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost", user="root", password="123456",
+                              db="ebook", port=3306, use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -295,4 +329,6 @@ def do_paper_one():
         data = str(e)
         resp = do_response("error", data, 400)
 
+    cursor.close()
+    db2.close()
     return make_response(resp, 200)

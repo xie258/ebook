@@ -70,7 +70,7 @@ export default {
       const response = await doCreateBbsComment(request);
       console.log(response);
       if (response.data.status === 200) {
-        this.$message.info(`create comment successfully!`);
+        // this.$message.info(`create comment successfully!`);
         this.getTopic();
       } else {
         this.$message.error(response.data.data);
@@ -81,7 +81,7 @@ export default {
       const response = await doGetBbsCommentByTopic(request);
       console.log(response);
       if (response.data.status === 200) {
-        this.$message.info(`create comment successfully!`);
+        // this.$message.info(`create comment successfully!`);
                 console.log(response.data.data)
         this.comments = response.data.data.map(comment => {
             console.log(comment.createTime)

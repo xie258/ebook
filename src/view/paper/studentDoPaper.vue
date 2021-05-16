@@ -10,7 +10,7 @@
           {{ "题目" + (index + 1) + ": " + d.title }}
         </div>
         <a-form-item>
-          <a-radio-group name="radioGroup" :default-value="1">
+          <a-radio-group name="radioGroup" :default-value="1" v-model="d.answerTrue">
             <a-radio :value="1">
               {{ d.answerA }}
             </a-radio>
@@ -85,6 +85,8 @@ export default {
       if (response.data.status === 200) {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
         this.askQustion = JSON.parse(response.data.data[0].askContent);
+        this.paperName = response.data.data[0].paperName;
+        this.paperDescription = response.data.data[0].paperDescription;
       } else {
         this.$message.error(response.data.data);
       }

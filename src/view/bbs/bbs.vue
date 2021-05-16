@@ -73,7 +73,7 @@ export default {
       const response = await doGetTopicAll();
       console.log(response);
       if (response.data.status === 200) {
-        this.$message.info(`get topic list successfully!`);
+        // this.$message.info(`get topic list successfully!`);
         this.data = response.data.data.map((element, index) => {
           element.key = index;
           return element;

@@ -5,6 +5,7 @@ import datetime
 classmanage = Blueprint('classmanage', __name__)
 
 from database.ext import db2
+import pymysql
 
 from utils.response import do_response
 from utils.toDict import tuple_to_dict
@@ -20,19 +21,22 @@ def create():
     sql = 'insert into class_teacher(teacherName,className,description) values("%s","%s", "%s")' % (teacherName,className, description)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         db2.cursor().execute(sql)
         db2.commit()
         resp = do_response("success", "true", 200)
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
     
 @classmanage.route('/api/class/get', methods=['POST', 'GET'])
 def getClass():
-    print(request.data)
+    print("data",request.data)
+    print("sss")
     data = json.loads(request.data)
     print(data)
     teacherName = data['teacherName']
@@ -41,20 +45,23 @@ def getClass():
         sql = 'select * from class_teacher'
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
-        print(sql)
+        print("ssss")
         all_data = cursor.fetchall()
         print("all",all_data)
         key_list = ["className", "teacherName", "description"]
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
 
 @classmanage.route('/api/class/delete', methods=['POST', 'GET'])
@@ -66,14 +73,17 @@ def delete():
     sql = 'delete from class_teacher where className = "%s"' % (className)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         db2.cursor().execute(sql)
         db2.commit()
         resp = do_response("success", "true", 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
 
 @classmanage.route('/api/class/join', methods=['POST', 'GET'])
@@ -93,6 +103,7 @@ def join():
                         and className = "%s"' % (status, studentName, className)
     
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor = db2.cursor()
         cursor.execute(sql_one)
         print(sql_one)
@@ -107,11 +118,13 @@ def join():
             print(sql_three)
         db2.commit()
         resp = do_response("success", "true", 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
 
 
@@ -127,6 +140,7 @@ def get_join_list():
                 and b.studentName = "%s"' % (studentName)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -136,6 +150,8 @@ def get_join_list():
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
@@ -153,6 +169,7 @@ def get_class_one():
                 and status = 1''' % (className)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -162,11 +179,13 @@ def get_class_one():
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-
+        
     return make_response(resp, 200)
 
 @classmanage.route('/api/class/notificatoin/add', methods=['POST', 'GET'])
@@ -183,11 +202,14 @@ def addClassNotification():
                  
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         print(sql)
         db2.commit()
         resp = do_response("success","true", 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
@@ -204,6 +226,7 @@ def addClassNotificatio():
     sql = 'select * from class_notification where className = "%s"' %(className)
     print(sql)
     try:
+        db2 = pymysql.connect(host="localhost",user="root",password="123456",db="ebook",port=3306,use_unicode=True, charset="utf8mb4")
         cursor =db2.cursor()
         cursor.execute(sql)
         print(sql)
@@ -213,9 +236,11 @@ def addClassNotificatio():
         resp_data = tuple_to_dict(key_list, all_data)
         print("resp",resp_data)
         resp = do_response("success",resp_data, 200)
+        cursor.close()
+        db2.close()
     except Exception as e:
         print(e)
         data = str(e)
         resp = do_response("error", data, 400)
-        
+
     return make_response(resp, 200)

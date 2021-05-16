@@ -3,7 +3,7 @@
     <h1>学生试卷列表</h1>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record">
-        <a v-if="!record.score" @click="scorePaper(record)"> score</a>
+        <a v-if="record.status === '1'" @click="scorePaper(record)"> score</a>
         <a v-else @click="checkPaper(record)"> check</a>
       </span>
     </a-table>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">试卷名称: {{ paperName }}</div>
-    <div class="description">介绍: {{ paperName }}</div>
+    <div class="description">介绍: {{ paperDescription }}</div>
     <div class="score">总分： {{ score }}</div>
 
     <div style="text-align: left; margin-bottom: 5px; margin-top: 10px">
@@ -67,8 +67,8 @@ export default {
       selectData: "",
       askQustionVisible: false,
       askquestionContent: "",
-      paperName: "22",
-      paperDescription: "44",
+      paperName: "",
+      paperDescription: "",
       paperId: null,
       score: null,
       stuPaperId: null,
@@ -87,6 +87,8 @@ export default {
         this.choiceQustion = JSON.parse(response.data.data[0].selectContent);
         this.askQustion = JSON.parse(response.data.data[0].askContent);
         this.score = response.data.data[0].score;
+        this.paperName = response.data.data[0].paperName;
+        this.paperDescription = response.data.data[0].paperDescription;
       } else {
         this.$message.error(response.data.data);
       }

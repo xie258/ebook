@@ -37,14 +37,22 @@ export default {
       user: "",
       pwd: "",
       form: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
         types: 1
       }
     };
   },
   methods: {
     async onSubmit() {
+      if (this.form.username.trim() === '') {
+        this.$message.error("账号名不能为空");
+        return;
+      }
+      if (this.form.password.trim() === '') {
+        this.$message.error("密码不能为空");
+        return;
+      }
       const response = await doLogin(this.form);
       console.log("sss");
       if (response.data.status === 200) {

@@ -1,18 +1,5 @@
 <template>
   <div>
-    <!-- <div class="head"></div>
-        <span style="font-family:KaiTi;float:left;margin-left:30px;font-size:25px;color:orange">
-              基于web的交互电子书
-        </span>
-
-      <span style="font-family:SimHei;float:left;margin-left:150px;font-size:20px;color:black">
-               <a-icon type="home" />首页
-        </span>
-     <span style="font-family:SimHei;float:left;margin-left:50px;font-size:20px;color:black">
-              电子课本
-        </span>
-    </div>-->
-
     <a-layout id="components-layout-demo-top-side-2">
       <a-layout>
         <a-layout-content class="header">
@@ -39,6 +26,9 @@
             </a-menu-item>
             <a-menu-item key="5">
               <router-link to="/bbs">论坛</router-link>
+            </a-menu-item>
+            <a-menu-item key="6" v-if="this.types === 1">
+              <router-link to="/createQuestion">题库</router-link>
             </a-menu-item>
           </a-menu>
         </a-layout-content>
